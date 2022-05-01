@@ -52,6 +52,18 @@ void Event::puzzleEncounter(Character &character)
 
         cout << "\nYour answer: ";
         cin >> userAns;
+
+        while (cin.fail())
+        {
+            cout << "Faulty input!" << "\n";
+            cin.clear();
+            cin.ignore(100, '\n');
+
+            cout << "\nYour answer: ";
+            cin >> userAns;
+        }
+
+        cin.ignore(100, '\n');
         cout << "\n";
 
         if (puzzle.getCorrectAns() == userAns)
