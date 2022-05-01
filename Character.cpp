@@ -3,8 +3,6 @@
 
 Character::Character()
 {
-    this->xPos = 0.0;
-    this->yPos = 0.0;
     this->distanceTravelled = 0;
 
 
@@ -34,6 +32,42 @@ Character::Character()
     this->skillPoints = 0;
 }
 
+Character::Character(string name, int distanceTravelled, int gold, int level,
+                     int exp, int strength, int vitality, int dexterity,
+                     int intelligence, int hp, int stamina, int statPoints,
+                     int skillPoints)
+{
+    this->distanceTravelled = distanceTravelled;
+
+
+    this->gold = gold;
+
+    this->name = name;
+    this->level = level;
+    this->exp = exp;
+    this->expNext = 0;
+
+    this->strength = strength;
+    this->vitality = vitality;
+    this->dexterity = dexterity;
+    this->intelligence = intelligence;
+
+    this->hp = hp;
+    this->hpMax = 0;
+    this->stamina = stamina;
+    this->staminaMax = 0;
+    this->damageMax = 0;
+    this->damageMin = 0;
+    this->defence = 0;
+    this->accuracy = 0;
+    this->luck = 0;
+
+    this->statPoints = statPoints;
+    this->skillPoints = skillPoints;
+
+    this->updateStats();
+}
+
 Character::~Character()
 {
 
@@ -42,8 +76,6 @@ Character::~Character()
 //functions
 void Character::initialize(const string name)
 {
-    this->xPos = 0.0;
-    this->yPos = 0.0;
     this->distanceTravelled = 0;
 
     this->gold = 100;
@@ -100,6 +132,22 @@ void Character::printStats() const
 
 }
 
+void Character::updateStats()
+{
+    this->expNext = static_cast<int>
+                    ((50/3)*((pow(level,3)-
+                              6*pow(level,2))+
+                             17*level-12)) + 100;
+
+    this->hpMax = (this->vitality * 2) + (this->strength / 2);
+    this->staminaMax = this->vitality + (this->strength/2) + (this->dexterity/3);
+    this->damageMax = this->strength*2;
+    this->damageMin = this->strength;
+    this->defence = this->dexterity + (this->intelligence/2);
+    this->accuracy = (this->dexterity / 2);
+    this->luck = this->intelligence;
+}
+
 void Character::levelUp()
 {
     if (this->exp >= this->expNext)
@@ -125,9 +173,9 @@ void Character::levelUp()
 
 string Character::getAsString() const
 {
-    return to_string(xPos) + " " +
-            to_string(yPos) + " " +
-            name + " " +
+    return  name + " " +
+            to_string(distanceTravelled) + " " +
+            to_string(gold) + " " +
             to_string(level) + " " +
             to_string(exp) + " " +
             to_string(strength) + " " +

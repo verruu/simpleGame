@@ -7,6 +7,10 @@ class Character
 {
 public:
     Character();
+    Character(string name, int distanceTravelled, int gold, int level,
+              int exp, int strength, int vitality, int dexterity,
+              int intelligence, int hp, int stamina, int statPoints,
+              int skillPoints);
     virtual ~Character();
 
 //functions
@@ -14,10 +18,9 @@ void initialize(const string name);
 void printStats() const;
 void levelUp();
 string getAsString() const;
+void updateStats();
 
 //accessors
-inline const double& getX() const { return this->xPos; }
-inline const double& getY() const { return this->yPos; }
 inline const int& getDistanceTravelled() const { return this->distanceTravelled; }
 
 inline const string& getName() const { return this->name; }
@@ -48,8 +51,6 @@ inline void travel() { this->distanceTravelled++; }
 inline void gainExp(const int& exp) { this->exp += exp; }
 
 private:
-    double xPos;
-    double yPos;
 
     int distanceTravelled;
 
@@ -83,8 +84,5 @@ private:
 
     int statPoints;
     int skillPoints;
-
-
-
 
 };

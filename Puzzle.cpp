@@ -24,7 +24,7 @@ Puzzle::Puzzle(const std::string fileName)
         this->correctAnswer = correctAns;
         inFile.ignore();
     }
-    else throw invalid_argument("Could not open puzzle!");
+    else throw runtime_error("Error! Could not open puzzle!");
     inFile.close();
 }
 
