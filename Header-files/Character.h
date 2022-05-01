@@ -16,9 +16,10 @@ public:
 //functions
 void initialize(const string name);
 void printStats() const;
-void levelUp();
 string getAsString() const;
+void levelUp();
 void updateStats();
+void addToStat(int stat, int value);
 
 //accessors
 inline const int& getDistanceTravelled() const { return this->distanceTravelled; }
