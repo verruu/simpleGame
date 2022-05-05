@@ -223,3 +223,12 @@ string Character::getAsString() const
             to_string(statPoints) + " " +
             to_string(skillPoints);
 }
+
+void Character::takeDamage(const int damage)
+{
+    this->hp -= damage;
+    if (this->hp <= 0)
+    {
+        this->hp = 0;
+    }
+}

@@ -35,19 +35,19 @@ void Game::mainMenu()
     this->characters[activeCharacter].getName() << ". Nr " <<
     this->activeCharacter+1 << "/" << this->characters.size() << ".\n\n";
 
-    cout << "0: Quit" << endl;
-    cout << "1: Travel" << endl;
-    cout << "2: Shop" << endl;
-    cout << "3: Level up" << endl;
-    cout << "4: Rest" << endl;
-    cout << "5: Character sheet" << endl;
-    cout << "6: Create a new character" << endl;
-    cout << "7: Save characters" << endl;
-    cout << "8: Load characters" << endl;
-    cout << "9: Select a character" << endl;
-    cout << endl;
+    cout << "0: Quit" << "\n";
+    cout << "1: Travel" << "\n";
+    cout << "2: Shop" << "\n";
+    cout << "3: Level up" << "\n";
+    cout << "4: Rest" << "\n";
+    cout << "5: Character sheet" << "\n";
+    cout << "6: Create a new character" << "\n";
+    cout << "7: Select a character" << "\n";
+    cout << "8: Save characters" << "\n";
+    cout << "9: Load characters" << "\n";
+    cout << "\n";
 
-    cout << endl << "Choice: ";
+    cout << "\n" << "Choice: ";
     cin >> this->choice;
 
     while (cin.fail())
@@ -56,12 +56,12 @@ void Game::mainMenu()
         cin.clear();
         cin.ignore(100, '\n');
 
-        cout << endl << "Choice: ";
+        cout << "\n" << "Choice: ";
         cin >> this->choice;
     }
 
     cin.ignore(100, '\n');
-    cout << endl;
+    cout << "\n";
 
     switch (choice)
     {
@@ -85,14 +85,14 @@ void Game::mainMenu()
             createNewCharacter();
             saveCharacters();
             break;
-        case 7: //SAVE CHARACTERS
+        case 7: //SELECT A CHARACTER
+            selectCharacter();
+            break;
+        case 8: //SAVE CHARACTERS
             saveCharacters();
             break;
-        case 8: //LOAD CHARACTERS
+        case 9: //LOAD CHARACTERS
             loadCharacters();
-            break;
-        case 9: //SELECT A CHARACTER
-            selectCharacter();
             break;
 
             default:

@@ -36,6 +36,7 @@ inline const int& getIntelligence() const { return this->intelligence; }
 
 inline const int& getHp() const { return this->hp; }
 inline const int& getHpMax() const { return this->hpMax; }
+inline const bool isAlive() { return this-> hp > 0; }
 inline const int& getStamina() const { return this->stamina; }
 inline const int& getStaminaMax() const { return this->staminaMax; }
 inline const int& getDamageMax() const { return this->damageMax; }
@@ -50,6 +51,7 @@ inline const int& getSkillPoints() const { return this->skillPoints; }
 inline void setDistanceTravelled(const int& distance) { this->distanceTravelled = distance; }
 inline void travel() { this->distanceTravelled++; }
 inline void gainExp(const int& exp) { this->exp += exp; }
+void takeDamage(const int damage);
 
 private:
 
