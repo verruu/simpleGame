@@ -17,13 +17,6 @@ Game::~Game()
 void Game::initGame()
 {
     createNewCharacter();
-
-    dArr<int> ints;
-    for (size_t i = 0; i < 20; i++)
-    {
-        ints.push(rand()%10);
-        cout<<ints[i]<<"\n";
-    }
 }
 
 void Game::mainMenu()
@@ -34,9 +27,13 @@ void Game::mainMenu()
     if (this->characters[activeCharacter].getExp() >=
         this->characters[activeCharacter].getExpNext())
     {
-        cout << "LEVEL UP AVAILABLE! \n\n";
+        cout << "LEVEL UP AVAILABLE!" << "\n\n";
     }
-    cout << " -=MAIN MENU=- " << endl << endl;
+    cout << " -=MAIN MENU=- " << "\n\n";
+
+    cout << "ACTIVE CHARACTER: " <<
+    this->characters[activeCharacter].getName() << ". Nr " <<
+    this->activeCharacter+1 << "/" << this->characters.size() << ".\n\n";
 
     cout << "0: Quit" << endl;
     cout << "1: Travel" << endl;
@@ -47,6 +44,7 @@ void Game::mainMenu()
     cout << "6: Create a new character" << endl;
     cout << "7: Save characters" << endl;
     cout << "8: Load characters" << endl;
+    cout << "9: Select a character" << endl;
     cout << endl;
 
     cout << endl << "Choice: ";
@@ -84,7 +82,6 @@ void Game::mainMenu()
             characters[activeCharacter].printStats();
             break;
         case 6: //CREATE A NEW CHARACTER
-            cin.ignore();
             createNewCharacter();
             saveCharacters();
             break;
@@ -93,6 +90,9 @@ void Game::mainMenu()
             break;
         case 8: //LOAD CHARACTERS
             loadCharacters();
+            break;
+        case 9: //SELECT A CHARACTER
+            selectCharacter();
             break;
 
             default:
@@ -106,6 +106,16 @@ void Game::createNewCharacter()
     string name = "";
     cout << "Enter your character name: ";
     getline(cin, name);
+
+    for (size_t i = 0; i < this->characters.size(); i++)
+    {
+        while (name == this->characters[i].getName())
+        {
+            cout << "Error! Character already exists!" << "\n";
+            cout << "Enter your character name: ";
+            getline(cin, name);
+        }
+    }
 
     characters.push_back(Character());
     activeCharacter = characters.size() -1;
@@ -235,10 +245,40 @@ void Game::loadCharacters()
     }
 }
 
+void Game::selectCharacter()
+{
+    cout << "Select character: " << "\n\n";
+
+    for (size_t i = 0; i < this->characters.size(); i++)
+    {
+        cout << "Index: " << i << " = " << this->characters[i].getName() <<
+        ", level: " << this->characters[i].getLevel() << "\n";
+    }
+    cout << "\n";
+    cout << "Choice: ";
+    cin >> this->choice;
+
+    while (cin.fail() || this->choice >= this->characters.size() || this->choice < 0)
+    {
+        cout << "Faulty input!" << "\n";
+        cin.clear();
+        cin.ignore(100, '\n');
+
+        cout << "Select character: " << "\n";
+        cin >> this->choice;
+    }
+
+    cin.ignore(100, '\n');
+    cout << "\n";
+
+    this->activeCharacter = this->choice;
+    cout << this->characters[this->activeCharacter].getName() << " selected!" << "\n\n";
+}
+
 void Game::Travel()
 {
     this->characters[activeCharacter].travel();
     Event ev;
-    ev.generateEvent(this->characters[activeCharacter]);
+    ev.generateEvent(this->characters[activeCharacter], this->enemies);
 
 }

@@ -2,7 +2,6 @@
 
 #include "Functions.h"
 #include "Event.h"
-#include "dArr.h"
 #include <ctime>
 #include <vector>
 #include <sstream>
@@ -22,6 +21,7 @@ class Game
             void levelUpCharacter();
             void saveCharacters();
             void loadCharacters();
+            void selectCharacter();
             void Travel();
 
 
@@ -38,8 +38,11 @@ class Game
             bool playing;
 
 //Character related
-    int activeCharacter;
-    vector<Character> characters;
-    string fileName;
+            int activeCharacter;
+            vector<Character> characters;
+            string fileName;
+
+//    Enemies related
+            dArr<Enemy> enemies;
 
         };

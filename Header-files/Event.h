@@ -9,9 +9,9 @@ class Event
 public:
     Event();
     virtual ~Event();
-    void generateEvent(Character &character);
+    void generateEvent(Character &character, dArr<Enemy>& enemies);
 //    events
-    void enemyEncounter (Character &character);
+    void enemyEncounter (Character &character, dArr<Enemy>& enemies);
     void puzzleEncounter (Character &character);
 
 

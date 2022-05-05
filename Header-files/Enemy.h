@@ -1,5 +1,6 @@
 #pragma once
 
+#include "dArr.h"
 #include <stdlib.h>
 #include <string>
 
