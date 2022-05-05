@@ -185,15 +185,19 @@ void Character::addToStat(int stat, int value)
         {
             case 0: //STRENGTH
                 this->strength += value;
+                cout << "Strength increased!" << "\n";
                 break;
             case 1: //VITALITY
                 this->vitality += value;
+                cout << "Vitality increased!" << "\n";
                 break;
             case 2: //DEXTERITY
                 this->dexterity += value;
+                cout << "Dexterity increased!" << "\n";
                 break;
             case 3: //INTELLIGENCE
                 this->intelligence += value;
+                cout << "Intelligence increased!" << "\n";
                 break;
             default:
                 cout << "No such stat!" << "\n";
