@@ -41,6 +41,7 @@ inline const int& getStamina() const { return this->stamina; }
 inline const int& getStaminaMax() const { return this->staminaMax; }
 inline const int& getDamageMax() const { return this->damageMax; }
 inline const int& getDamageMin() const { return this->damageMin; }
+inline const int getDamage() const { return rand() % (this->damageMax - this->damageMin) + this->damageMin; }
 inline const int& getDefence() const { return this->defence; }
 inline const int& getAccuracy() const { return this->accuracy; }
 inline const int& getLuck() const { return this->luck; }

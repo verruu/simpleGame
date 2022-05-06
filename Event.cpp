@@ -37,6 +37,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
     bool playerTurn = false;
     int choice = 0;
 
+    //Coin toss for turn
     int coinToss = rand() % 1 + 1;
 
     if (coinToss == 1)
@@ -44,16 +45,24 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
     else
         playerTurn = false;
 
+    //End encounter conditions
     bool escape = false;
     bool playerDefeated = false;
     bool enemiesDefeated = false;
 
-    int nrOfEnemies = rand() % 5;
+    //Enemies
+    int nrOfEnemies = rand() % 4 + 1;
 
     for (size_t i = 0; i < nrOfEnemies; i++)
     {
         enemies.push(Enemy(character.getLevel()));
     }
+
+    //Battle variables and modifiers
+    int attackRoll = 0;
+    int defendRoll = 0;
+    int damage = 0;
+    int gainExp = 0;
 
     while(!escape && !playerDefeated && !enemiesDefeated)
     {
@@ -91,13 +100,66 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
 
             switch (choice)
             {
-                case 0:
+                case 0: //ESCAPE
                     break;
-                case 1:
+                case 1: //ATTACK
+
+                //Enemy selection
+                    cout << "Select enemy: " << "\n\n";
+
+                    for (size_t i = 0; i < enemies.size(); i++)
+                    {
+                        cout << i << ": " << "Level: " << enemies[i].getLevel() <<
+                        " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() << "\n";
+                    }
+
+                    cout << "\n";
+                    cout << "Choice: ";
+                    cin >> choice;
+
+                    while (cin.fail() || choice >= enemies.size() || choice < 0)
+                    {
+                        //system("CLS");
+                        cout << "Faulty input!" << "\n";
+                        cin.clear();
+                        cin.ignore(100, '\n');
+
+                        cout << "Select enemy: " << "\n\n";
+
+                        cout << "Choice: ";
+                        cin >> choice;
+                    }
+
+                    cin.ignore(100, '\n');
+                    cout << "\n";
+
+                attackRoll = rand() % 99 + 1;
+
+                if (attackRoll > 50) //HIT
+                {
+                    cout << "Hit!" << "\n\n";
+                    damage = character.getDamage();
+                    enemies[choice].takeDamage(damage);
+
+                    cout << damage << " damage dealt!" << "\n\n";
+
+                    if (!enemies[choice].isAlive())
+                    {
+                        gainExp = enemies[choice].getExp();
+                        character.gainExp(gainExp);
+                        cout << "Enemy defeated! Gained " << gainExp << " experience!" << "\n\n";
+                        enemies.remove(choice);
+                    }
+                }
+                else //MISS
+                {
+                    cout << "You missed!" << "\n\n";
+                }
+
                     break;
-                case 2:
+                case 2: //DEFEND
                     break;
-                case 3:
+                case 3: //USE ITEM
                     break;
                 default:
                     break;
