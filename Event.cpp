@@ -55,17 +55,14 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
 
     for (size_t i = 0; i < nrOfEnemies; i++)
     {
-        enemies.push(Enemy(character.getLevel() + rand()%3));
+        enemies.push(Enemy(character.getLevel()));
     }
 
     //Battle variables and modifiers
+    int attackRoll = 0;
+    int defendRoll = 0;
     int damage = 0;
     int gainExp = 0;
-    int playerTotal = 0;
-    int enemyTotal = 0;
-    int combatTotal = 0;
-    int combatRollPlayer = 0;
-    int combatRollEnemy = 0;
 
     while(!escape && !playerDefeated && !enemiesDefeated)
     {
@@ -113,9 +110,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                     for (size_t i = 0; i < enemies.size(); i++)
                     {
                         cout << i << ": " << "Level: " << enemies[i].getLevel() <<
-                        " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() <<
-                        " Defence: " << enemies[i].getDefence() << " Accuracy: " <<
-                        enemies[i].getAccuracy() << "\n";
+                        " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() << "\n";
                     }
 
                     cout << "\n";
@@ -138,23 +133,9 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                     cin.ignore(100, '\n');
                     cout << "\n";
 
-                //Attack roll
-                combatRollPlayer = rand() % 99 + 1;
+                attackRoll = rand() % 99 + 1;
 
-                combatTotal = enemies[choice].getDefence() + character.getAccuracy();
-                enemyTotal = enemies[choice].getDefence() / (double)combatTotal * 100;
-                playerTotal = character.getAccuracy() / (double)combatTotal * 100;
-                combatRollPlayer = rand() % playerTotal + 1;
-                combatRollEnemy = rand() % enemyTotal + 1;
-
-//                cout << combatTotal << "\n";
-//                cout << enemyTotal << "\n";
-//                cout << playerTotal << "\n";
-
-                cout << "Player rolled: " << combatRollPlayer << "\n";
-                cout << "Enemy rolled: " << combatRollEnemy << "\n\n";
-
-                if (combatRollPlayer > combatRollEnemy) //HIT
+                if (attackRoll > 50) //HIT
                 {
                     cout << "Hit!" << "\n\n";
                     damage = character.getDamage();
