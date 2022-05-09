@@ -4,8 +4,6 @@
 Character::Character()
 {
     this->distanceTravelled = 0;
-
-
     this->gold = 0.0;
 
     this->name = "";
@@ -38,8 +36,6 @@ Character::Character(string name, int distanceTravelled, int gold, int level,
                      int skillPoints)
 {
     this->distanceTravelled = distanceTravelled;
-
-
     this->gold = gold;
 
     this->name = name;
@@ -77,7 +73,6 @@ Character::~Character()
 void Character::initialize(const string name)
 {
     this->distanceTravelled = 0;
-
     this->gold = 100;
 
     this->name = name;
@@ -95,12 +90,12 @@ void Character::initialize(const string name)
 
     this->hpMax = (this->vitality * 2) + (this->strength / 2);
     this->hp = this->hpMax;
-    this->staminaMax = this->vitality + (this->strength/2) + (this->dexterity/3);
+    this->staminaMax = this->vitality + (this->strength / 2) + (this->dexterity / 3);
     this->stamina = this->staminaMax;
-    this->damageMax = this->strength*2;
+    this->damageMax = this->strength * 2;
     this->damageMin = this->strength;
-    this->defence = this->dexterity + (this->intelligence/2);
-    this->accuracy = (this->dexterity / 2);
+    this->defence = this->dexterity + (this->intelligence / 2);
+    this->accuracy = (this->dexterity / 2) + (this->intelligence / 2);
     this->luck = this->intelligence;
 
     this->statPoints = 0;
@@ -136,15 +131,15 @@ void Character::updateStats()
 {
     this->expNext = static_cast<int>
                     ((50/3)*((pow(level,3)-
-                              6*pow(level,2))+
-                             17*level-12)) + 100;
+                    6*pow(level,2))+
+                    17*level-12)) + 100;
 
     this->hpMax = (this->vitality * 2) + (this->strength / 2);
-    this->staminaMax = this->vitality + (this->strength/2) + (this->dexterity/3);
-    this->damageMax = this->strength*2;
+    this->staminaMax = this->vitality + (this->strength / 2) + (this->dexterity / 3);
+    this->damageMax = this->strength * 2;
     this->damageMin = this->strength;
-    this->defence = this->dexterity + (this->intelligence/2);
-    this->accuracy = (this->dexterity / 2);
+    this->defence = this->dexterity + (this->intelligence / 2);
+    this->accuracy = (this->dexterity / 2) + (this->intelligence / 2);
     this->luck = this->intelligence;
 }
 
@@ -161,8 +156,6 @@ void Character::levelUp()
 
         this->statPoints++;
         this->skillPoints++;
-
-        this->updateStats();
 
         cout << "You are now level " << level << "!" << "\n\n";
 

@@ -167,6 +167,7 @@ void Game::levelUpCharacter()
                 break;
         }
     }
+    this->characters[activeCharacter].updateStats();
 }
 
 void Game::saveCharacters()
