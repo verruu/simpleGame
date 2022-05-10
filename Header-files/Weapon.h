@@ -18,6 +18,12 @@ public:
 //Functions
     string toString();
 
+//Accessors
+inline int getDamageMin() const { return this-> damageMin; }
+inline int getDamageMax() const { return this-> damageMax; }
+
+//Modifiers
+
 private:
     int damageMin;
     int damageMax;

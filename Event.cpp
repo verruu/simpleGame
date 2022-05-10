@@ -104,6 +104,11 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
             switch (choice)
             {
                 case 0: //ESCAPE
+                for (size_t i = 0; i < enemies.size(); i++)
+                {
+                    enemies.remove(i);
+                }
+                escape = true;
                     break;
                 case 1: //ATTACK
 
@@ -186,11 +191,36 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
 
             playerTurn = false;
         }
-        else if (!playerTurn && !escape && !enemiesDefeated)
+        else if (!playerTurn && !playerDefeated && !escape && !enemiesDefeated)
         {
+            cout << "ENEMY TURN!" << "\n";
             for (size_t i = 0; i < enemies.size(); i++)
             {
+                combatRollPlayer = rand() % playerTotal + 1;
+                combatRollEnemy = rand() % enemyTotal + 1;
 
+                cout << "Enemy: " << i << "\n\n";
+                cout << "Player rolled: " << combatRollPlayer << "\n";
+                cout << "Enemy rolled: " << combatRollEnemy << "\n\n";
+
+                if (combatRollPlayer < combatRollEnemy) //HIT
+                {
+                    cout << "Hit!" << "\n\n";
+                    damage = enemies[i].getDamage();
+                    character.takeDamage(damage);
+
+                    cout << damage << " damage dealt!" << "\n\n";
+
+                    if (!character.isAlive())
+                    {
+                        cout << "YOU ARE DEFEATED!" << "\n\n";
+                        playerDefeated = true;
+                    }
+                }
+                else //MISS
+                {
+                    cout << "Enemy missed!" << "\n\n";
+                }
             }
 
             playerTurn = true;

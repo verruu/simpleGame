@@ -2,6 +2,7 @@
 
 #include "Item.h"
 
+enum armorType {HEAD = 0, CHEST, ARMS, LEGS};
 class Armor :
         public Item
 {
@@ -17,6 +18,10 @@ public:
 
 //Functions
     string toString();
+
+//Accessors
+inline int getDefence() const { return this->defence; }
+inline int getType() const { return this->type; }
 
 private:
     int type;

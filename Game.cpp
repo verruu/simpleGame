@@ -24,81 +24,105 @@ void Game::mainMenu()
     cout << "ENTER to continue..." << "\n";
     cin.get();
 
-    if (this->characters[activeCharacter].getExp() >=
-        this->characters[activeCharacter].getExpNext())
+    if (this->characters[activeCharacter].isAlive())
     {
-        cout << "LEVEL UP AVAILABLE!" << "\n\n";
-    }
-    cout << " -=MAIN MENU=- " << "\n\n";
+        if (this->characters[activeCharacter].getExp() >=
+            this->characters[activeCharacter].getExpNext())
+        {
+            cout << "LEVEL UP AVAILABLE!" << "\n\n";
+        }
+        cout << " -=MAIN MENU=- " << "\n\n";
 
-    cout << "ACTIVE CHARACTER: " <<
-    this->characters[activeCharacter].getName() << ". Nr " <<
-    this->activeCharacter+1 << "/" << this->characters.size() << ".\n\n";
+        cout << "ACTIVE CHARACTER: " <<
+             this->characters[activeCharacter].getName() << ". Nr " <<
+             this->activeCharacter + 1 << "/" << this->characters.size() << ".\n\n";
 
-    cout << "0: Quit" << "\n";
-    cout << "1: Travel" << "\n";
-    cout << "2: Shop" << "\n";
-    cout << "3: Level up" << "\n";
-    cout << "4: Rest" << "\n";
-    cout << "5: Character sheet" << "\n";
-    cout << "6: Create a new character" << "\n";
-    cout << "7: Select a character" << "\n";
-    cout << "8: Save characters" << "\n";
-    cout << "9: Load characters" << "\n";
-    cout << "\n";
-
-    cout << "\n" << "Choice: ";
-    cin >> this->choice;
-
-    while (cin.fail())
-    {
-        cout << "Faulty input!" << "\n";
-        cin.clear();
-        cin.ignore(100, '\n');
+        cout << "0: Quit" << "\n";
+        cout << "1: Travel" << "\n";
+        cout << "2: Shop" << "\n";
+        cout << "3: Level up" << "\n";
+        cout << "4: Rest" << "\n";
+        cout << "5: Character sheet" << "\n";
+        cout << "6: Create a new character" << "\n";
+        cout << "7: Select a character" << "\n";
+        cout << "8: Save characters" << "\n";
+        cout << "9: Load characters" << "\n";
+        cout << "\n";
 
         cout << "\n" << "Choice: ";
         cin >> this->choice;
-    }
 
-    cin.ignore(100, '\n');
-    cout << "\n";
+        while (cin.fail()) {
+            cout << "Faulty input!" << "\n";
+            cin.clear();
+            cin.ignore(100, '\n');
 
-    switch (choice)
-    {
-        case 0: //QUIT
-            playing = false;
-            break;
-        case 1: //TRAVEL
-            Travel();
-            break;
-        case 2: //SHOP
-            break;
-        case 3: //LEVEL UP
-            this->levelUpCharacter();
-            break;
-        case 4: //REST
-            break;
-        case 5: //CHARACTER SHEET
-            characters[activeCharacter].printStats();
-            break;
-        case 6: //CREATE A NEW CHARACTER
-            createNewCharacter();
-            saveCharacters();
-            break;
-        case 7: //SELECT A CHARACTER
-            selectCharacter();
-            break;
-        case 8: //SAVE CHARACTERS
-            saveCharacters();
-            break;
-        case 9: //LOAD CHARACTERS
-            loadCharacters();
-            break;
+            cout << "\n" << "Choice: ";
+            cin >> this->choice;
+        }
+
+        cin.ignore(100, '\n');
+        cout << "\n";
+
+        switch (choice) {
+            case 0: //QUIT
+                playing = false;
+                break;
+            case 1: //TRAVEL
+                Travel();
+                break;
+            case 2: //SHOP
+                break;
+            case 3: //LEVEL UP
+                this->levelUpCharacter();
+                break;
+            case 4: //REST
+                break;
+            case 5: //CHARACTER SHEET
+                characters[activeCharacter].printStats();
+                break;
+            case 6: //CREATE A NEW CHARACTER
+                createNewCharacter();
+                saveCharacters();
+                break;
+            case 7: //SELECT A CHARACTER
+                selectCharacter();
+                break;
+            case 8: //SAVE CHARACTERS
+                saveCharacters();
+                break;
+            case 9: //LOAD CHARACTERS
+                loadCharacters();
+                break;
 
             default:
                 break;
+        }
     }
+    else
+    {
+        cout << "YOU HAVE DIED!" << "\n" << "CONTINUE?" << "\n";
+        cout << "(0) Yes / (1) No" << "\n";
+        cin >> this->choice;
 
+        while (cin.fail() || this->choice < 0 || this->choice > 1)
+        {
+            cout << "Faulty input!" << "\n";
+            cin.clear();
+            cin.ignore(100, '\n');
+
+            cout << "(0) Yes / (1) No" << "\n";
+            cin >> this->choice;
+        }
+
+        cin.ignore(100, '\n');
+        cout << "\n";
+
+        if (this->choice == 0)
+            this->loadCharacters();
+        else
+            playing = false;
+    }
 }
 
 void Game::createNewCharacter()
