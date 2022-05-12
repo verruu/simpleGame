@@ -22,6 +22,8 @@ public:
     inline int getHpMax() const { return this->hpMax; }
     inline int getDefence() const { return this->defence; }
     inline int getAccuracy() const { return this->accuracy; }
+    inline int getDamageMin() const { return this->damageMin; }
+    inline int getDamageMax() const { return this->damageMax; }
 
 private:
     int level;

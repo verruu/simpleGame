@@ -17,11 +17,11 @@ void Event::generateEvent(Character &character, dArr<Enemy>& enemies)
     switch (i)
     {
         case 0:
-            cout << "Enemy!\n";
+            cout << "Enemy attack!\n";
             enemyEncounter(character, enemies);
             break;
         case 1:
-            cout << "Puzzle!\n";
+            cout << "You've got a puzzle to solve!\n";
             puzzleEncounter(character);
             break;
         case 2:
@@ -58,6 +58,15 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
         enemies.push(Enemy(character.getLevel() + rand() % 3));
     }
 
+    for (size_t i = 0; i < enemies.size(); i++)
+    {
+        cout << i << ": " << "Level: " << enemies[i].getLevel() <<
+             " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() <<
+             " Defence: " << enemies[i].getDefence() << " Accuracy: " <<
+             enemies[i].getAccuracy() <<
+             "Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
+    }
+
     //Battle variables and modifiers
     int damage = 0;
     int gainExp = 0;
@@ -71,8 +80,13 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
     {
         if (playerTurn && !playerDefeated)
         {
-            //system("CLS");
+            cout << "-=PLAYER TURN!=-" << "\n";
+            cout << "Continue.." << "\n\n";
+            cin.get();
+
             cout << "-=Battle menu=-" << "\n\n";
+            cout << "Your Hp: " <<
+            character.getHp() << "/" << character.getHpMax() << ". \n\n";
             cout << "0: Escape" << "\n";
             cout << "1: Attack" << "\n";
             cout << "2: Defend" << "\n";
@@ -120,7 +134,8 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                         cout << i << ": " << "Level: " << enemies[i].getLevel() <<
                         " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() <<
                         " Defence: " << enemies[i].getDefence() << " Accuracy: " <<
-                        enemies[i].getAccuracy() << "\n";
+                        enemies[i].getAccuracy() <<
+                        "Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
                     }
 
                     cout << "\n";
@@ -193,9 +208,15 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
         }
         else if (!playerTurn && !playerDefeated && !escape && !enemiesDefeated)
         {
-            cout << "ENEMY TURN!" << "\n";
+            cout << "-=ENEMY TURN!=-" << "\n";
+            cout << "Continue.." << "\n\n";
+            cin.get();
+
             for (size_t i = 0; i < enemies.size(); i++)
             {
+                combatTotal = enemies[i].getAccuracy() + character.getDefence();
+                enemyTotal = enemies[i].getAccuracy() / (double)combatTotal * 100;
+                playerTotal = character.getDefence() / (double)combatTotal * 100;
                 combatRollPlayer = rand() % playerTotal + 1;
                 combatRollEnemy = rand() % enemyTotal + 1;
 
@@ -209,10 +230,16 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                     damage = enemies[i].getDamage();
                     character.takeDamage(damage);
 
-                    cout << damage << " damage dealt!" << "\n\n";
+                    cout << damage << " damage dealt!" << "\n";
+                    cout << "Your Hp: " <<
+                         character.getHp() << "/" << character.getHpMax() << ". \n\n";
 
                     if (!character.isAlive())
                     {
+                        for (size_t i = 0; i < enemies.size(); i++)
+                        {
+                            enemies.remove(i);
+                        }
                         cout << "YOU ARE DEFEATED!" << "\n\n";
                         playerDefeated = true;
                     }
@@ -221,6 +248,8 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                 {
                     cout << "Enemy missed!" << "\n\n";
                 }
+                cout << "Continue.." << "\n\n";
+                cin.get();
             }
 
             playerTurn = true;

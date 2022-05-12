@@ -16,7 +16,8 @@ Game::~Game()
 //functions
 void Game::initGame()
 {
-    createNewCharacter();
+    loadCharacters();
+//    createNewCharacter();
 }
 
 void Game::mainMenu()
@@ -26,16 +27,17 @@ void Game::mainMenu()
 
     if (this->characters[activeCharacter].isAlive())
     {
-        if (this->characters[activeCharacter].getExp() >=
-            this->characters[activeCharacter].getExpNext())
-        {
-            cout << "LEVEL UP AVAILABLE!" << "\n\n";
-        }
         cout << " -=MAIN MENU=- " << "\n\n";
 
         cout << "ACTIVE CHARACTER: " <<
              this->characters[activeCharacter].getName() << ". Nr " <<
              this->activeCharacter + 1 << "/" << this->characters.size() << ".\n\n";
+
+        if (this->characters[activeCharacter].getExp() >=
+            this->characters[activeCharacter].getExpNext())
+        {
+            cout << "LEVEL UP AVAILABLE!" << "\n\n";
+        }
 
         cout << "0: Quit" << "\n";
         cout << "1: Travel" << "\n";
