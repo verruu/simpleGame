@@ -20,6 +20,7 @@ string getAsString() const;
 void levelUp();
 void updateStats();
 void addToStat(int stat, int value);
+inline void resetHp() { this->hp = this->hpMax; }
 
 //accessors
 inline const int& getDistanceTravelled() const { return this->distanceTravelled; }
@@ -27,6 +28,7 @@ inline const int& getDistanceTravelled() const { return this->distanceTravelled;
 inline const string& getName() const { return this->name; }
 inline const int& getLevel() const { return this->level; }
 inline const int& getExp() const { return this->exp; }
+inline const int& getGold() const { return this->gold; }
 inline const int& getExpNext() const { return this->expNext; }
 
 inline const int& getStrength() const { return this->strength; }
@@ -48,10 +50,13 @@ inline const int& getLuck() const { return this->luck; }
 
 inline const int& getStatPoints() const { return this->statPoints; }
 inline const int& getSkillPoints() const { return this->skillPoints; }
+
 //modifiers
 inline void setDistanceTravelled(const int& distance) { this->distanceTravelled = distance; }
 inline void travel() { this->distanceTravelled++; }
-inline void gainExp(const int& exp) { this->exp += exp; }
+inline void gainExp(const int exp) { this->exp += exp; }
+inline void gainGold(const int gold) { this->gold += gold; }
+inline void payGold(const int gold) { this->gold -= gold; }
 void takeDamage(const int damage);
 
 private:

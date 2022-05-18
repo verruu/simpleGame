@@ -73,7 +73,7 @@ Character::~Character()
 void Character::initialize(const string name)
 {
     this->distanceTravelled = 0;
-    this->gold = 100;
+    this->gold = 50;
 
     this->name = name;
     this->level = 1;
@@ -146,7 +146,7 @@ void Character::printStats() const
     cout << "-= Armor - legs: " << this->armor_legs.getName()
          << ", level: " << this->armor_legs.getLevel()
          << ", defence: " << this->armor_legs.getDefence()
-         << " =-" << endl;
+         << " =-" << "\n" << endl;
 
 }
 

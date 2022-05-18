@@ -16,8 +16,14 @@ Game::~Game()
 //functions
 void Game::initGame()
 {
-    loadCharacters();
-//    createNewCharacter();
+    ifstream in;
+    in.open("characters.txt");
+
+    if (in.is_open())
+        this->loadCharacters();
+    else
+        createNewCharacter();
+        this->saveCharacters();
 }
 
 void Game::mainMenu()
@@ -79,6 +85,7 @@ void Game::mainMenu()
                 this->levelUpCharacter();
                 break;
             case 4: //REST
+                rest();
                 break;
             case 5: //CHARACTER SHEET
                 characters[activeCharacter].printStats();
@@ -308,4 +315,54 @@ void Game::Travel()
     Event ev;
     ev.generateEvent(this->characters[activeCharacter], this->enemies);
 
+}
+
+void  Game::rest()
+{
+    int restCost = (this->characters[this->activeCharacter].getHpMax() - this->characters[this->activeCharacter].getHp()) * 3;
+    int charGold = this->characters[this->activeCharacter].getGold();
+    int currHp = this->characters[this->activeCharacter].getHp();
+    int maxHp = this->characters[this->activeCharacter].getHpMax();
+
+    cout << "-=REST=-" << "\n\n";
+    cout << "You have " << currHp << "/" << maxHp << " Hp." << "\n";
+
+
+    if (restCost > charGold)
+    {
+        cout << "You have " << charGold << " gold." << "\n";
+        cout << "Resting will cost you " << restCost << " gold." << "\n";
+        cout << "Not enough gold!"  << "\n";
+    }
+    else if (currHp >= maxHp)
+    {
+        cout << "You are well rested already." << "\n";
+    }
+    else
+    {
+        cout << "You have " << charGold << " gold." << "\n";
+        cout << "Resting will cost you " << restCost << " gold." << "\n";
+        cout << "Do you want to rest? (1) Yes, (0) No." << "\n";
+        cin >> this->choice;
+
+        while (cin.fail() || this->choice > 1 || this->choice < 0) {
+            cout << "Faulty input!" << "\n";
+            cin.clear();
+            cin.ignore(100, '\n');
+
+            cout << "Do you want to rest? (1) Yes, (0) No." << "\n";
+            cin >> this->choice;
+        }
+
+        cin.ignore(100, '\n');
+        cout << "\n";
+
+        if (this->choice == 1)
+        {
+            this->characters[this->activeCharacter].resetHp();
+            this->characters[this->activeCharacter].payGold(restCost);
+            int goldBalance = this->characters[this->activeCharacter].getGold();
+            cout << "Your Hp has been restored to maximum. Current gold balance is " << goldBalance << "\n";
+        }
+    }
 }

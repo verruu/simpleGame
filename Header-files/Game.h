@@ -23,6 +23,7 @@ class Game
             void loadCharacters();
             void selectCharacter();
             void Travel();
+            void rest();
 
 
 //Accessors

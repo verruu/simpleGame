@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cstddef"
+#include <math.h>
 
 template <typename T>
 class dArr

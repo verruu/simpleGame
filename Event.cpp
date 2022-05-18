@@ -70,6 +70,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
     //Battle variables and modifiers
     int damage = 0;
     int gainExp = 0;
+    int gainGold = 0;
     int playerTotal = 0;
     int enemyTotal = 0;
     int combatTotal = 0;
@@ -122,6 +123,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                 {
                     enemies.remove(i);
                 }
+                cout << "You have escaped the battle successfully!" << "\n";
                 escape = true;
                     break;
                 case 1: //ATTACK
@@ -135,7 +137,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                         " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() <<
                         " Defence: " << enemies[i].getDefence() << " Accuracy: " <<
                         enemies[i].getAccuracy() <<
-                        "Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
+                        " Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
                     }
 
                     cout << "\n";
@@ -186,7 +188,10 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                     {
                         gainExp = enemies[choice].getExp();
                         character.gainExp(gainExp);
-                        cout << "Enemy defeated! Gained " << gainExp << " experience!" << "\n\n";
+                        gainGold = enemies[choice].getGold();
+                        character.gainGold(gainGold);
+                        cout << "Enemy defeated! Gained " << gainExp << " experience!" << "\n";
+                        cout << "You gained " << gainGold << " gold!" << "\n\n";
                         enemies.remove(choice);
                     }
                 }
@@ -299,9 +304,11 @@ void Event::puzzleEncounter(Character &character)
         if (puzzle.getCorrectAns() == userAns)
         {
             completed = true;
-            int gainExp = chances * (rand() % 5 + 5) + 20;
+            int gainExp = chances * (rand() % 5 + 5);
             character.gainExp(gainExp);
-            cout << "You gained " << gainExp << " EXP!" << "\n\n";
+            int gainGold = chances * (rand() % 5 + 5);
+            character.gainGold(gainGold);
+            cout << "You gained " << gainExp << " EXP and " << gainGold << " gold!" << "\n";
         }
         chances--;
     }
