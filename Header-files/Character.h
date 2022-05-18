@@ -1,5 +1,7 @@
 #pragma once
 
+#include "STLINCLUDE.h"
+
 #include "Inventory.h"
 #include "Enemy.h"
 
@@ -17,10 +19,12 @@ public:
 void initialize(const string name);
 void printStats() const;
 string getAsString() const;
+string getInvAsString();
 void levelUp();
 void updateStats();
 void addToStat(int stat, int value);
 inline void resetHp() { this->hp = this->hpMax; }
+void addItem(const Item &item) { this->inventory.addItem(item); }
 
 //accessors
 inline const int& getDistanceTravelled() const { return this->distanceTravelled; }

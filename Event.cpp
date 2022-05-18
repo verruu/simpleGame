@@ -193,6 +193,45 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                         cout << "Enemy defeated! Gained " << gainExp << " experience!" << "\n";
                         cout << "You gained " << gainGold << " gold!" << "\n\n";
                         enemies.remove(choice);
+
+//                      Item roll
+                        int roll = rand() % 100 + 1;
+                        int rarity = -1;
+
+                        if (roll > 20)
+                        {
+                            rarity = 0;
+                            if (roll > 30)
+                            {
+                                rarity = 1;
+                                if (roll > 60)
+                                {
+                                    rarity = 2;
+                                    if (roll > 85)
+                                    {
+                                        rarity = 3;
+                                        if (roll > 95)
+                                            rarity = 4;
+                                    }
+                                }
+                            }
+                        }
+                        if (roll >= 0)
+                        {
+                            roll = rand() % 100 + 1;
+                            if (roll > 50)
+                            {
+                                Weapon tempW(character.getLevel(), rand()%5);
+                                character.addItem(tempW);
+                                cout << "Enemy dropped a weapon!" << "\n";
+                            }
+                            else
+                            {
+                                Armor tempA(character.getLevel(), rand()%5);
+                                character.addItem(tempA);
+                                cout << "Enemy dropped an armor!" << "\n";
+                            }
+                        }
                     }
                 }
                 else //MISS

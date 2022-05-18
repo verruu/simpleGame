@@ -19,11 +19,17 @@ void Game::initGame()
     ifstream in;
     in.open("characters.txt");
 
+    Weapon::initNames();
+    Armor::initNames();
+
     if (in.is_open())
         this->loadCharacters();
     else
+    {
         createNewCharacter();
         this->saveCharacters();
+    }
+    in.close();
 }
 
 void Game::mainMenu()
@@ -51,10 +57,11 @@ void Game::mainMenu()
         cout << "3: Level up" << "\n";
         cout << "4: Rest" << "\n";
         cout << "5: Character sheet" << "\n";
-        cout << "6: Create a new character" << "\n";
-        cout << "7: Select a character" << "\n";
-        cout << "8: Save characters" << "\n";
-        cout << "9: Load characters" << "\n";
+        cout << "6: Show inventory" << "\n";
+        cout << "7: Create a new character" << "\n";
+        cout << "8: Select a character" << "\n";
+        cout << "9: Save characters" << "\n";
+        cout << "10: Load characters" << "\n";
         cout << "\n";
 
         cout << "\n" << "Choice: ";
@@ -90,17 +97,20 @@ void Game::mainMenu()
             case 5: //CHARACTER SHEET
                 characters[activeCharacter].printStats();
                 break;
-            case 6: //CREATE A NEW CHARACTER
+            case 6: //SHOW INVENTORY
+                cout << this->characters[this->activeCharacter].getInvAsString();
+                break;
+            case 7: //CREATE A NEW CHARACTER
                 createNewCharacter();
                 saveCharacters();
                 break;
-            case 7: //SELECT A CHARACTER
+            case 8: //SELECT A CHARACTER
                 selectCharacter();
                 break;
-            case 8: //SAVE CHARACTERS
+            case 9: //SAVE CHARACTERS
                 saveCharacters();
                 break;
-            case 9: //LOAD CHARACTERS
+            case 10: //LOAD CHARACTERS
                 loadCharacters();
                 break;
 

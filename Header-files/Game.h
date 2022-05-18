@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Functions.h"
+#include "STLINCLUDE.h"
+
 #include "Event.h"
-#include <ctime>
-#include <vector>
-#include <sstream>
+
 
 class Game
         {

@@ -1,8 +1,10 @@
 #pragma once
 
-#include <stdlib.h>
+#include "STLINCLUDE.h"
+
 #include "Puzzle.h"
 #include "Character.h"
+#include "Enemy.h"
 
 class Event
 {

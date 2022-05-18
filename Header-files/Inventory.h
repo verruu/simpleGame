@@ -1,5 +1,7 @@
 #pragma once
 
+#include "STLINCLUDE.h"
+
 #include "Weapon.h"
 #include "Armor.h"
 

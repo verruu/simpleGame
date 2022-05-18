@@ -61,6 +61,10 @@ Character::Character(string name, int distanceTravelled, int gold, int level,
     this->statPoints = statPoints;
     this->skillPoints = skillPoints;
 
+    this->inventory.addItem(Weapon(1, rand() % 5));
+    this->inventory.addItem(Weapon(1, rand() % 5));
+    this->inventory.addItem(Armor(1, rand() % 5));
+
     this->updateStats();
 }
 
@@ -239,6 +243,18 @@ string Character::getAsString() const
             to_string(stamina) + " " +
             to_string(statPoints) + " " +
             to_string(skillPoints);
+}
+
+string Character::getInvAsString()
+{
+    string inv;
+
+    for (size_t i = 0; i < this->inventory.size(); ++i)
+    {
+        inv += to_string(i) + ": " + this->inventory[i].toString() + "\n";
+    }
+
+    return inv;
 }
 
 void Character::takeDamage(const int damage)

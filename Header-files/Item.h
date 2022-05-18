@@ -1,23 +1,23 @@
 #pragma once
 
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <cmath>
+#include "STLINCLUDE.h"
 
 using namespace std;
 
 class Item {
 public:
-    Item(string name = "NONE",
-         int level = 0,
-         int buyValue = 0,
-         int sellValue = 0,
-         int rarity = 0);
+    Item();
+    Item(int level, int rarity);
+    Item(string name,
+         int level,
+         int buyValue,
+         int sellValue,
+         int rarity);
     virtual ~Item();
 
     inline string debugPrint() const {return this-> name;}
     virtual Item* clone()const = 0;
+    virtual string toString()const = 0;
 
 //Accessors
     inline const string& getName() const {return this-> name;}
@@ -27,6 +27,9 @@ public:
     inline const int& getRarity() const {return this-> rarity;}
 
 //Modifiers
+    inline void setName(string name) { this->name = name; }
+
+//Static
 
 private:
     string name;
@@ -34,4 +37,9 @@ private:
     int sellValue;
     int buyValue;
     int rarity;
+};
+
+enum rarity
+{
+    common = 0, uncommon, rare, epic, legendary
 };
