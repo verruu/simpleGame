@@ -25,6 +25,7 @@ void updateStats();
 void addToStat(int stat, int value);
 inline void resetHp() { this->hp = this->hpMax; }
 void addItem(const Item &item) { this->inventory.addItem(item); }
+void eqItem(unsigned index);
 
 //accessors
 inline const int& getDistanceTravelled() const { return this->distanceTravelled; }
@@ -45,12 +46,21 @@ inline const int& getHpMax() const { return this->hpMax; }
 inline const bool isAlive() { return this-> hp > 0; }
 inline const int& getStamina() const { return this->stamina; }
 inline const int& getStaminaMax() const { return this->staminaMax; }
-inline const int& getDamageMax() const { return this->damageMax; }
 inline const int& getDamageMin() const { return this->damageMin; }
-inline const int getDamage() const { return rand() % (this->damageMax - this->damageMin) + this->damageMin; }
+inline const int& getDamageMax() const { return this->damageMax; }
+inline const int getWepDamageMin() const { return this->damageMin + this->weapon.getDamageMin(); }
+inline const int getWepDamageMax() const { return this->damageMax + this->weapon.getDamageMax(); }
+inline const int getDamage() const { return rand() % ((1 + this->damageMax + this->weapon.getDamageMax()) - (this->damageMin + this->weapon.getDamageMin())) +
+                                    +this->damageMin + this->weapon.getDamageMin(); }
 inline const int& getDefence() const { return this->defence; }
+inline const int& getDefenceMax() const { return this->defence +
+                                         this->armor_legs.getDefence() +
+                                         this->armor_arms.getDefence() +
+                                         this->armor_chest.getDefence() +
+                                         this->armor_head.getDefence(); }
 inline const int& getAccuracy() const { return this->accuracy; }
 inline const int& getLuck() const { return this->luck; }
+inline const int getInvSize() const { return this->inventory.size(); }
 
 inline const int& getStatPoints() const { return this->statPoints; }
 inline const int& getSkillPoints() const { return this->skillPoints; }

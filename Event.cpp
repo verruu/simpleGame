@@ -161,7 +161,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                     cout << "\n";
 
                 //Attack roll
-                combatRollPlayer = rand() % 99 + 1;
+                combatRollPlayer = rand() % 100 + 1;
 
                 combatTotal = enemies[choice].getDefence() + character.getAccuracy();
                 enemyTotal = enemies[choice].getDefence() / (double)combatTotal * 100;
@@ -258,9 +258,9 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
 
             for (size_t i = 0; i < enemies.size(); i++)
             {
-                combatTotal = enemies[i].getAccuracy() + character.getDefence();
+                combatTotal = enemies[i].getAccuracy() + character.getDefenceMax();
                 enemyTotal = enemies[i].getAccuracy() / (double)combatTotal * 100;
-                playerTotal = character.getDefence() / (double)combatTotal * 100;
+                playerTotal = character.getDefenceMax() / (double)combatTotal * 100;
                 combatRollPlayer = rand() % playerTotal + 1;
                 combatRollEnemy = rand() % enemyTotal + 1;
 

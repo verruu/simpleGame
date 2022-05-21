@@ -48,11 +48,11 @@ Weapon* Weapon::clone()const
 
 string Weapon::toString()const
 {
-    string str = this->getName() + " " +
-            to_string(this->getLevel()) + " " +
-            to_string(this->getRarity()) + " " +
-            to_string(this->damageMin) + " " +
-            to_string(this->damageMax) + " " +
-            to_string(this->getSellValue());
+    string str = this->getName() + ". Level: " +
+            to_string(this->getLevel()) + ", rarity: " +
+            to_string(this->getRarity()) + ", damage: " +
+            to_string(this->damageMin) + "/" +
+            to_string(this->damageMax) + ", sell value: " +
+            to_string(this->getSellValue()) + ".";
     return str;
 }

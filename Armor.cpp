@@ -20,6 +20,26 @@ Armor::Armor(int level, int rarity):Item(level, rarity)
 {
     this->defence = (rand() % level + 1) * rarity + level;
     this->type = rand() % 4;
+
+    switch (this->type)
+    {
+        case armorType::HEAD:
+            this->typeStr = "Head";
+            break;
+        case armorType::CHEST:
+            this->typeStr = "Chest";
+            break;
+        case armorType::ARMS:
+            this->typeStr = "Arms";
+            break;
+        case armorType::LEGS:
+            this->typeStr = "Legs";
+            break;
+        default:
+            this->typeStr = "ERROR!";
+            break;
+    }
+
     this->setName(Armor::names[rand() % Armor::names.size()]);
     if (rarity == 3)
         this->defence += level * rarity;
@@ -45,11 +65,11 @@ Armor* Armor::clone()const
 
 string Armor::toString()const
 {
-    string str = this->getName() + " " +
-                to_string(this->type) + " " +
-                to_string(this->getLevel()) + " " +
-                to_string(this->getRarity()) + " " +
-                to_string(this->defence) + " " +
-                to_string(this->getSellValue());;
+    string str = this->getName() + ". Type: " +
+                this->typeStr + ", level: " +
+                to_string(this->getLevel()) + ", rarity: " +
+                to_string(this->getRarity()) + ", defence: " +
+                to_string(this->defence) + ", sell value: " +
+                to_string(this->getSellValue()) + ".";
     return str;
 }

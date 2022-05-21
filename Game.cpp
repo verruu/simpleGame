@@ -34,9 +34,6 @@ void Game::initGame()
 
 void Game::mainMenu()
 {
-    cout << "ENTER to continue..." << "\n";
-    cin.get();
-
     if (this->characters[activeCharacter].isAlive())
     {
         cout << " -=MAIN MENU=- " << "\n\n";
@@ -56,12 +53,11 @@ void Game::mainMenu()
         cout << "2: Shop" << "\n";
         cout << "3: Level up" << "\n";
         cout << "4: Rest" << "\n";
-        cout << "5: Character sheet" << "\n";
-        cout << "6: Show inventory" << "\n";
-        cout << "7: Create a new character" << "\n";
-        cout << "8: Select a character" << "\n";
-        cout << "9: Save characters" << "\n";
-        cout << "10: Load characters" << "\n";
+        cout << "5: Character menu" << "\n";
+        cout << "6: Create a new character" << "\n";
+        cout << "7: Select a character" << "\n";
+        cout << "8: Save characters" << "\n";
+        cout << "9: Load characters" << "\n";
         cout << "\n";
 
         cout << "\n" << "Choice: ";
@@ -95,28 +91,26 @@ void Game::mainMenu()
                 rest();
                 break;
             case 5: //CHARACTER SHEET
-                characters[activeCharacter].printStats();
+                this->characterMenu();
                 break;
-            case 6: //SHOW INVENTORY
-                cout << this->characters[this->activeCharacter].getInvAsString();
-                break;
-            case 7: //CREATE A NEW CHARACTER
+            case 6: //CREATE A NEW CHARACTER
                 createNewCharacter();
                 saveCharacters();
                 break;
-            case 8: //SELECT A CHARACTER
+            case 7: //SELECT A CHARACTER
                 selectCharacter();
                 break;
-            case 9: //SAVE CHARACTERS
+            case 8: //SAVE CHARACTERS
                 saveCharacters();
                 break;
-            case 10: //LOAD CHARACTERS
+            case 9: //LOAD CHARACTERS
                 loadCharacters();
                 break;
-
             default:
                 break;
         }
+        cout << "ENTER to continue..." << "\n";
+        cin.get();
     }
     else
     {
@@ -142,6 +136,69 @@ void Game::mainMenu()
         else
             playing = false;
     }
+}
+
+void Game::characterMenu()
+{
+    do {
+        cout << " -=CHARACTER MENU=- " << "\n\n";
+
+        cout << "0: Return to Main Menu" << "\n";
+        cout << "1: Show character stats" << "\n";
+        cout << "2: Show inventory" << "\n";
+        cout << "3: Equip item" << "\n";
+
+        cout << "\n" << "Choice: ";
+        cin >> this->choice;
+
+        while (cin.fail() || this->choice < 0 || this->choice > 3)
+        {
+            cout << "Faulty input!" << "\n";
+            cin.clear();
+            cin.ignore(100, '\n');
+
+            cout << "\n" << "Choice: ";
+            cin >> this->choice;
+        }
+
+        cin.ignore(100, '\n');
+        cout << "\n";
+
+        switch (this->choice) {
+            case 1: //STATS
+                this->characters[this->activeCharacter].printStats();
+                break;
+            case 2: //INVENTORY
+                cout << this->characters[this->activeCharacter].getInvAsString();
+                break;
+            case 3: //EQUIP
+                cout << "\n" << "Choose an item to equip: ";
+                cin >> this->choice;
+
+                while (cin.fail() || this->choice < 0 || this->choice >= this->characters[this->activeCharacter].getInvSize())
+                {
+                    cout << "Faulty input!" << "\n";
+                    cin.clear();
+                    cin.ignore(100, '\n');
+
+                    cout << "\n" << "Choose an item to equip: ";
+                    cin >> this->choice;
+                }
+
+                cin.ignore(100, '\n');
+                cout << "\n";
+
+                this->characters[this->activeCharacter].eqItem(this->choice);
+                break;
+            default:
+                break;
+        }
+        if (this->choice > 0)
+        {
+            cout << "ENTER to continue..." << "\n";
+            cin.get();
+        }
+    } while (this->choice > 0);
 }
 
 void Game::createNewCharacter()

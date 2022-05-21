@@ -68,5 +68,13 @@ void Inventory::addItem(const Item &item)
 }
 void Inventory::removeItem(int index)
 {
-
+    if (index < 0 || index >= this->nrOfItems)
+    {
+        throw runtime_error("Out of bounds remove!");
+    } else
+    {
+        delete this->itemArr[index];
+        this->itemArr[index] = this->itemArr[this->nrOfItems -1];
+        this->itemArr[--this->nrOfItems] = nullptr;
+    }
 }

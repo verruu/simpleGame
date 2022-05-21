@@ -61,9 +61,12 @@ Character::Character(string name, int distanceTravelled, int gold, int level,
     this->statPoints = statPoints;
     this->skillPoints = skillPoints;
 
-    this->inventory.addItem(Weapon(1, rand() % 5));
-    this->inventory.addItem(Weapon(1, rand() % 5));
-    this->inventory.addItem(Armor(1, rand() % 5));
+//    this->inventory.addItem(Weapon(1, rand() % 5));
+//    this->inventory.addItem(Weapon(1, rand() % 5));
+//    this->inventory.addItem(Weapon(1, rand() % 5));
+//    this->inventory.addItem(Armor(1, rand() % 5));
+//    this->inventory.addItem(Armor(1, rand() % 5));
+//    this->inventory.addItem(Armor(1, rand() % 5));
 
     this->updateStats();
 }
@@ -123,8 +126,12 @@ void Character::printStats() const
     cout << endl;
     cout << "-= HP: " << this->hp << "/" << this->hpMax << " =-" << endl;
     cout << "-= Stamina: " << this->stamina << "/" << this->staminaMax << " =-" << endl;
-    cout << "-= Damage: " << this->damageMin << " - " << this->damageMax <<" =-" << endl;
-    cout << "-= Defence: " << this->defence << " =-" << endl;
+    cout << "-= Damage: " << this->damageMin + this->weapon.getDamageMin() << " - " << this->damageMax + this->weapon.getDamageMax() <<" =-" << endl;
+    cout << "-= Defence: " << this->defence +
+                              this->armor_legs.getDefence() +
+                              this->armor_arms.getDefence() +
+                              this->armor_chest.getDefence() +
+                              this->armor_head.getDefence() << " =-" << endl;
     cout << "-= Accuracy: " << this->accuracy << " =-" << endl;
     cout << "-= Magic find: " << this->luck << " =-" << endl;
     cout << "-= Distance travelled: " << this->distanceTravelled << " =-" << endl;
@@ -151,7 +158,6 @@ void Character::printStats() const
          << ", level: " << this->armor_legs.getLevel()
          << ", defence: " << this->armor_legs.getDefence()
          << " =-" << "\n" << endl;
-
 }
 
 void Character::updateStats()
@@ -243,6 +249,62 @@ string Character::getAsString() const
             to_string(stamina) + " " +
             to_string(statPoints) + " " +
             to_string(skillPoints);
+}
+
+void Character::eqItem(unsigned index)
+{
+    if ( index < 0 || index >= this-> inventory.size())
+    {
+        cout << "No valid item selected!" << "\n\n";
+    } else {
+        Weapon *w = nullptr;
+        w = dynamic_cast<Weapon *>(&this->inventory[index]);
+
+        Armor *a = nullptr;
+        a = dynamic_cast<Armor *>(&this->inventory[index]);
+
+        if (w != nullptr)
+        {
+            if (this->weapon.getRarity() >= 0)
+            this->inventory.addItem(this->weapon);
+            this->weapon = *w;
+            this->inventory.removeItem(index);
+        } else if (a != nullptr)
+        {
+            switch (a->getType())
+            {
+                case armorType::HEAD:
+                    if (this->armor_head.getRarity() >= 0)
+                    this->inventory.addItem(this->armor_head);
+                    this->armor_head = *a;
+                    this->inventory.removeItem(index);
+                    break;
+                case armorType::CHEST:
+                    if (this->armor_chest.getRarity() >= 0)
+                    this->inventory.addItem(this->armor_chest);
+                    this->armor_chest = *a;
+                    this->inventory.removeItem(index);
+                    break;
+                case armorType::ARMS:
+                    if (this->armor_arms.getRarity() >= 0)
+                    this->inventory.addItem(this->armor_arms);
+                    this->armor_arms = *a;
+                    this->inventory.removeItem(index);
+                    break;
+                case armorType::LEGS:
+                    if (this->armor_legs.getRarity() >= 0)
+                    this->inventory.addItem(this->armor_legs);
+                    this->armor_legs = *a;
+                    this->inventory.removeItem(index);
+                    break;
+                default:
+                    cout << "Error, armor type is invalid!" << "\n\n";
+                    break;
+            }
+        } else {
+            cout << "Error, item is neither armor nor weapon!" << "\n\n";
+        }
+    }
 }
 
 string Character::getInvAsString()

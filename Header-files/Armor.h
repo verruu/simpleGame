@@ -34,4 +34,5 @@ inline int getType() const { return this->type; }
 private:
     int type;
     int defence;
+    string typeStr;
 };
