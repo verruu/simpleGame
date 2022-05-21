@@ -4,11 +4,15 @@
 
 using namespace std;
 
-class Item {
+enum itemTypes {WEAPON = 0, ARMOR};
+
+class Item
+{
 public:
     Item();
-    Item(int level, int rarity);
+    Item(int itemType, int level, int rarity);
     Item(string name,
+         int itemType,
          int level,
          int buyValue,
          int sellValue,
@@ -25,6 +29,7 @@ public:
     inline const int& getBuyValue() const {return this-> buyValue;}
     inline const int& getSellValue() const {return this-> sellValue;}
     inline const int& getRarity() const {return this-> rarity;}
+    inline const int& getItemType() const {return this-> itemType;}
 
 //Modifiers
     inline void setName(string name) { this->name = name; }
@@ -32,6 +37,7 @@ public:
 //Static
 
 private:
+    int itemType;
     string name;
     int level;
     int sellValue;

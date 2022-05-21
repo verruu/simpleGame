@@ -19,7 +19,7 @@ Weapon::Weapon():Item()
 
 }
 
-Weapon::Weapon(int level, int rarity):Item(level, rarity)
+Weapon::Weapon(int level, int rarity):Item(itemTypes::WEAPON, level, rarity)
 {
     this->damageMax = (rand() % level + 1) * rarity + level;
     this->setName(Weapon::names[rand() % Weapon::names.size()]);
@@ -31,7 +31,7 @@ Weapon::Weapon(int level, int rarity):Item(level, rarity)
 }
 
 Weapon::Weapon(int damageMin, int damageMax, string name, int level, int buyValue, int sellValue, int rarity)
-: Item (name, level, buyValue, sellValue, rarity)
+: Item (name, itemTypes::WEAPON, level, buyValue, sellValue, rarity)
 {
     this->damageMin = damageMin;
     this->damageMax = damageMax;

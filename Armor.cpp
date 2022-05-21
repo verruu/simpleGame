@@ -16,7 +16,7 @@ Armor::Armor():Item()
     this->defence = 0;
 }
 
-Armor::Armor(int level, int rarity):Item(level, rarity)
+Armor::Armor(int level, int rarity):Item(itemTypes::ARMOR, level, rarity)
 {
     this->defence = (rand() % level + 1) * rarity + level;
     this->type = rand() % 4;
@@ -48,7 +48,7 @@ Armor::Armor(int level, int rarity):Item(level, rarity)
 }
 
 Armor::Armor(int type, int defence, string name, int level, int buyValue, int sellValue, int rarity)
-        : Item (name, level, buyValue, sellValue, rarity)
+        : Item (name, itemTypes::ARMOR, level, buyValue, sellValue, rarity)
 {
     this->type = type;
     this->defence = defence;
