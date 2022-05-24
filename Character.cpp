@@ -248,7 +248,12 @@ string Character::getAsString() const
             to_string(hp) + " " +
             to_string(stamina) + " " +
             to_string(statPoints) + " " +
-            to_string(skillPoints);
+            to_string(skillPoints) + " " +
+            this->weapon.toStringSave() +
+            this->armor_head.toStringSave() +
+            this->armor_chest.toStringSave() +
+            this->armor_arms.toStringSave() +
+            this->armor_legs.toStringSave();
 }
 
 void Character::eqItem(unsigned index)

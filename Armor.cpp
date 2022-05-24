@@ -13,6 +13,7 @@ void Armor::initNames()
 
 Armor::Armor():Item()
 {
+    this->type = -1;
     this->defence = 0;
 }
 

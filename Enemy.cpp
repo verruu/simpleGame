@@ -3,7 +3,7 @@
 Enemy::Enemy(int level)
 {
     this->level = level;
-    this->hpMax = level * 5;
+    this->hpMax = rand() % (level * 5) + level;
     this->hp = this->hpMax;
     this->damageMin = this->level *1;
     this->damageMax = this->level *2;

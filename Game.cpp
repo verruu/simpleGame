@@ -345,12 +345,49 @@ void Game::loadCharacters()
             str >> statPoints;
             str >> skillPoints;
 
+            //create character
             Character temp(name, distanceTravelled, gold, level,
-                    exp, strength, vitality, dexterity,
-                    intelligence, hp, stamina, statPoints,
-                    skillPoints);
+                           exp, strength, vitality, dexterity,
+                           intelligence, hp, stamina, statPoints,
+                           skillPoints);
 
-            //items
+            //weapon
+            str >> itemType >> name >> level >> rarity >>
+                damageMin >> damageMax >> sellValue >> buyValue;
+
+            Weapon weapon(damageMin, damageMax, name, level, buyValue, sellValue, rarity);
+
+            //armor head
+            str >> itemType >> name >> level >> rarity >>
+                type >> defence >> sellValue >> buyValue;
+
+            Armor armor_head(type, defence, name, level, buyValue, sellValue, rarity);
+
+            //armor chest
+            str >> itemType >> name >> level >> rarity >>
+                type >> defence >> sellValue >> buyValue;
+
+            Armor armor_chest(type, defence, name, level, buyValue, sellValue, rarity);
+
+            //armor arms
+            str >> itemType >> name >> level >> rarity >>
+                type >> defence >> sellValue >> buyValue;
+
+            Armor armor_arms(type, defence, name, level, buyValue, sellValue, rarity);
+
+            //armor legs
+            str >> itemType >> name >> level >> rarity >>
+                type >> defence >> sellValue >> buyValue;
+
+            Armor armor_legs(type, defence, name, level, buyValue, sellValue, rarity);
+
+            temp.setWeapon(weapon);
+            temp.setArmorHead(armor_head);
+            temp.setArmorChest(armor_chest);
+            temp.setArmorArms(armor_arms);
+            temp.setArmorLegs(armor_legs);
+
+            //add inv items
             str.clear();
             line.clear();
             getline(inFile, line);

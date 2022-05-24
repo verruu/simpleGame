@@ -73,6 +73,11 @@ inline void gainExp(const int exp) { this->exp += exp; }
 inline void gainGold(const int gold) { this->gold += gold; }
 inline void payGold(const int gold) { this->gold -= gold; }
 void takeDamage(const int damage);
+inline void setWeapon(Weapon weapon) { this->weapon = weapon; }
+inline void setArmorHead(Armor armor_head) { this->armor_head = armor_head; }
+inline void setArmorChest(Armor armor_chest) { this->armor_chest = armor_chest; }
+inline void setArmorArms(Armor armor_arms) { this->armor_arms = armor_arms; }
+inline void setArmorLegs(Armor armor_legs) { this->armor_legs = armor_legs; }
 
 private:
 
