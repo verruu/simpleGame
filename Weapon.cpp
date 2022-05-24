@@ -4,12 +4,12 @@ dArr<string> Weapon::names;
 
 void Weapon::initNames()
 {
-    Weapon::names.push("Exacto knife");
-    Weapon::names.push("Spiked sword");
+    Weapon::names.push("Exacto-knife");
+    Weapon::names.push("Spiked-sword");
     Weapon::names.push("Katana");
     Weapon::names.push("Zweihander");
-    Weapon::names.push("Morning star");
-    Weapon::names.push("Hand axe");
+    Weapon::names.push("Morning-star");
+    Weapon::names.push("Hand-axe");
 }
 
 Weapon::Weapon():Item()
@@ -54,5 +54,18 @@ string Weapon::toString()const
             to_string(this->damageMin) + "/" +
             to_string(this->damageMax) + ", sell value: " +
             to_string(this->getSellValue()) + ".";
+    return str;
+}
+
+string Weapon::toStringSave() const
+{
+    string str = to_string(this->getItemType()) + " " +
+                 this->getName() + " " +
+                 to_string(this->getLevel()) + " " +
+                 to_string(this->getRarity()) + " " +
+                 to_string(this->damageMin) + " " +
+                 to_string(this->damageMax) + " " +
+                 to_string(this->getSellValue()) + " " +
+                 to_string(this->getBuyValue()) + " ";
     return str;
 }

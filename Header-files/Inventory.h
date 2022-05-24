@@ -13,6 +13,7 @@ class Inventory
     Inventory(const Inventory &obj);
     inline int size() const { return this->nrOfItems; };
     Item& operator[] (const int index);
+    void operator = (const Inventory &obj);
     void addItem(const Item &item);
     void removeItem(int index);
     inline void debugPrint() const

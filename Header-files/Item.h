@@ -22,6 +22,7 @@ public:
     inline string debugPrint() const {return this-> name;}
     virtual Item* clone()const = 0;
     virtual string toString()const = 0;
+    virtual string toStringSave()const = 0;
 
 //Accessors
     inline const string& getName() const {return this-> name;}

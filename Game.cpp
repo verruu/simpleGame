@@ -275,9 +275,12 @@ void Game::saveCharacters()
     ofstream outFile(fileName);
     if (outFile.is_open())
     {
-        for (size_t i = 0; i < characters.size(); i++)
+        for (size_t i = 0; i < this->characters.size(); i++)
         {
-            outFile << characters[i].getAsString() << "\n";
+            outFile << this->characters[i].getAsString() << "\n";
+
+
+            outFile << this->characters[i].getInvAsStringSave() << "\n";
         }
     }
     outFile.close();
@@ -306,6 +309,20 @@ void Game::loadCharacters()
     int statPoints = 0;
     int skillPoints = 0;
 
+    //Item
+    int itemType = 0;
+    int type = 0;
+    int defence = 0;
+    int damageMin = 0;
+    int damageMax = 0;
+    //name
+    //level
+    int buyValue = 0;
+    int sellValue = 0;
+    int rarity = 0;
+
+    Inventory tempItems;
+
     string line = "";
     stringstream str;
 
@@ -333,8 +350,37 @@ void Game::loadCharacters()
                     intelligence, hp, stamina, statPoints,
                     skillPoints);
 
+            //items
+            str.clear();
+            line.clear();
+            getline(inFile, line);
+
+            str.str(line);
+
+            while (str >> itemType >> name >> level >> rarity >>
+                   damageMin >> damageMax >> sellValue >> buyValue)
+            {
+                temp.addItem (Weapon(damageMin, damageMax, name, level,
+                                          buyValue, sellValue, rarity));
+
+            }
+
+            str.clear();
+            line.clear();
+            getline(inFile, line);
+
+            str.str(line);
+
+            while (str >> itemType >> name >> level >> rarity >>
+                          type >> defence >> sellValue >> buyValue)
+            {
+                temp.addItem (Armor(type, defence, name, level,
+                                     buyValue, sellValue, rarity));
+
+            }
+
             this->characters.push_back(Character(temp));
-            cout << "Character " << name << " loaded successfully!\n";
+            cout << "Character " << temp.getName() << " loaded successfully!\n";
             str.clear();
         }
     }

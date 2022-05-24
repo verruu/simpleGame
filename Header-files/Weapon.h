@@ -21,6 +21,7 @@ public:
 
 //Functions
     string toString()const;
+    string toStringSave()const;
 
 //Accessors
 inline int getDamageMin() const { return this-> damageMin; }

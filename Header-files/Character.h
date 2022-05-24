@@ -20,6 +20,7 @@ void initialize(const string name);
 void printStats() const;
 string getAsString() const;
 string getInvAsString();
+string getInvAsStringSave();
 void levelUp();
 void updateStats();
 void addToStat(int stat, int value);

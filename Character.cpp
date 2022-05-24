@@ -319,6 +319,27 @@ string Character::getInvAsString()
     return inv;
 }
 
+string Character::getInvAsStringSave()
+{
+    string inv;
+
+    for (size_t i = 0; i < this->inventory.size(); ++i)
+    {
+        if (this->inventory[i].getItemType() == itemTypes::WEAPON)
+        inv += this->inventory[i].toStringSave();
+    }
+
+    inv += "\n";
+
+    for (size_t i = 0; i < this->inventory.size(); ++i)
+    {
+        if (this->inventory[i].getItemType() == itemTypes::ARMOR)
+            inv += this->inventory[i].toStringSave();
+    }
+
+    return inv;
+}
+
 void Character::takeDamage(const int damage)
 {
     this->hp -= damage;

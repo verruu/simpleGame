@@ -73,3 +73,16 @@ string Armor::toString()const
                 to_string(this->getSellValue()) + ".";
     return str;
 }
+
+string Armor::toStringSave() const
+{
+    string str = to_string(this->getItemType()) + " " +
+                 this->getName() + " " +
+                 to_string(this->getLevel()) + " " +
+                 to_string(this->getRarity()) + " " +
+                 to_string(this->type) + " " +
+                 to_string(this->defence) + " " +
+                 to_string(this->getSellValue()) + " " +
+                 to_string(this->getBuyValue()) + " ";
+    return str;
+}

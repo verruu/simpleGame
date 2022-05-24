@@ -22,6 +22,7 @@ public:
 
 //Functions
     string toString()const;
+    string toStringSave()const;
 
 //Accessors
 inline int getDefence() const { return this->defence; }
