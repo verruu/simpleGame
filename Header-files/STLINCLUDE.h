@@ -11,3 +11,5 @@
 #include<iomanip>
 
 #include"dArr.h"
+
+using namespace std;

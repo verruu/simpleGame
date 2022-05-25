@@ -312,13 +312,16 @@ void Character::eqItem(unsigned index)
     }
 }
 
-string Character::getInvAsString()
+string Character::getInvAsString(bool shop)
 {
     string inv;
 
     for (size_t i = 0; i < this->inventory.size(); ++i)
     {
-        inv += to_string(i) + ": " + this->inventory[i].toString() + "\n";
+        if (shop)
+            inv += to_string(i) + ": " + this->inventory[i].toString() + ", Sell value: " + to_string(this->inventory[i].getSellValue()) + "\n";
+        else
+            inv += to_string(i) + ": " + this->inventory[i].toString() + "\n";
     }
 
     return inv;

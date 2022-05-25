@@ -19,7 +19,7 @@ public:
 void initialize(const string name);
 void printStats() const;
 string getAsString() const;
-string getInvAsString();
+string getInvAsString(bool shop = false);
 string getInvAsStringSave();
 void levelUp();
 void updateStats();

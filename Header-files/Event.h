@@ -15,9 +15,11 @@ public:
 //    events
     void enemyEncounter (Character &character, dArr<Enemy>& enemies);
     void puzzleEncounter (Character &character);
+    void shopEncounter (Character &character);
 
+    //statics
+    static int nrOfEvents;
 
 private:
-    int nrOfEvents;
 
 };

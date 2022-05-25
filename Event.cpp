@@ -1,8 +1,10 @@
 #include "Header-files/Event.h"
 
+int Event::nrOfEvents = 3;
+
 Event::Event()
 {
-    this->nrOfEvents = 2;
+
 }
 
 Event::~Event()
@@ -12,19 +14,21 @@ Event::~Event()
 
 void Event::generateEvent(Character &character, dArr<Enemy>& enemies)
 {
-    int i = rand() % this->nrOfEvents;
+    int i = rand() % Event::nrOfEvents;
 
     switch (i)
     {
         case 0:
             cout << "Enemy attack!\n";
-            enemyEncounter(character, enemies);
+            this->enemyEncounter(character, enemies);
             break;
         case 1:
             cout << "You've got a puzzle to solve!\n";
-            puzzleEncounter(character);
+            this->puzzleEncounter(character);
             break;
         case 2:
+            cout << "You've found a wandering merchant who wants to trade with you.\n";
+            this->shopEncounter(character);
             break;
         default:
             break;
@@ -32,7 +36,7 @@ void Event::generateEvent(Character &character, dArr<Enemy>& enemies)
 }
 
 //different events
-void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
+void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
 {
     bool playerTurn = false;
     int choice = 0;
@@ -51,7 +55,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
     bool enemiesDefeated = false;
 
     //Enemies
-    int nrOfEnemies = rand() % 4 + 1;
+    int nrOfEnemies = rand() % 5 + 1;
 
     for (size_t i = 0; i < nrOfEnemies; i++)
     {
@@ -221,13 +225,13 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                             roll = rand() % 100 + 1;
                             if (roll > 50)
                             {
-                                Weapon tempW(character.getLevel(), rand()%5);
+                                Weapon tempW(character.getLevel() + rand() % 3, rand()%5);
                                 character.addItem(tempW);
                                 cout << "Enemy dropped a weapon!" << "\n";
                             }
                             else
                             {
-                                Armor tempA(character.getLevel(), rand()%5);
+                                Armor tempA(character.getLevel() + rand() % 3, rand()%5);
                                 character.addItem(tempA);
                                 cout << "Enemy dropped an armor!" << "\n";
                             }
@@ -238,7 +242,6 @@ void Event::enemyEncounter(Character &character, dArr<Enemy>& enemies)
                 {
                     cout << "You missed!" << "\n\n";
                 }
-
                     break;
                 case 2: //DEFEND
                     break;
@@ -357,4 +360,112 @@ void Event::puzzleEncounter(Character &character)
     } else {
         cout << "YOU FAILED BRAH! \n\n";
     }
+}
+
+void Event::shopEncounter(Character &character)
+{
+    int choice = 0;
+    bool shopping = true;
+
+    //merchant inventory
+    Inventory merchInv;
+    string inv;
+    int nrOfItems = rand() % 4 + 3;
+    int coinToss = 0;
+
+    for (size_t i = 0; i < nrOfItems; i++)
+    {
+        coinToss = rand() % 100 + 1;
+        if (coinToss > 50)
+            merchInv.addItem(Weapon(character.getLevel(), rand() % 5));
+        else
+            merchInv.addItem(Armor(character.getLevel(), rand() % 5));
+    }
+
+    for (size_t i = 0; i < merchInv.size(); i++)
+    {
+        inv += to_string(i) + ": " + merchInv[i].toString() + "\n" +
+               " PRICE:" + to_string(merchInv[i].getBuyValue()) + "\n";
+    }
+
+    while (shopping) {
+        cout << "-=Shop menu=-" << "\n\n";
+        cout << "Your gold: " << character.getGold() << ". \n\n";
+        cout << "0: Leave" << "\n";
+        cout << "1: Buy" << "\n";
+        cout << "2: Sell" << "\n";
+        cout << "\n";
+        cout << "Choose your action: ";
+        cin >> choice;
+
+        while (cin.fail() || choice > 3 || choice < 0) {
+            //system("CLS");
+            cout << "Faulty input!" << "\n";
+            cin.clear();
+            cin.ignore(100, '\n');
+
+            cout << "Choose your action: ";
+            cin >> choice;
+        }
+
+        cin.ignore(100, '\n');
+        cout << "\n";
+
+        switch (choice) {
+            case 0: //leave the shop
+                for (size_t i = 0; i < merchInv.size(); i++)
+                {
+                    merchInv.removeItem(i);
+                }
+                shopping = false;
+                break;
+            case 1: //buy
+
+                cout << "-=BUY MENU=-" << "\n\n";
+                cout << "Your gold: " << character.getGold() << ". \n\n";
+
+                cout << inv << "\n";
+
+                cout << "Choose the item you want to buy: ";
+                cin >> choice;
+
+                while (cin.fail() || choice > merchInv.size() || choice < 0) {
+                    //system("CLS");
+                    cout << "Faulty input!" << "\n";
+                    cin.clear();
+                    cin.ignore(100, '\n');
+
+                    cout << "Choose the item you want to buy: ";
+                    cin >> choice;
+                }
+
+                cin.ignore(100, '\n');
+                cout << "\n";
+
+                if (character.getGold() >= merchInv[choice].getBuyValue())
+                {
+                    character.payGold(merchInv[choice].getBuyValue());
+                    character.addItem(merchInv[choice]);
+
+                    cout << "You have bought " << merchInv[choice].getName() << " for "
+                         << merchInv[choice].getBuyValue() << " gold." << "\n";
+                    cout << "Current gold balance: " << character.getGold() << ". \n\n";
+
+                    merchInv.removeItem(choice);
+                }
+                else
+                {
+                    cout << "You can not afford that item." << "\n";
+                }
+                break;
+            case 2: //sell
+                cout << character.getInvAsString(true) << "\n";
+                break;
+            default:
+                break;
+        }
+        cout << "ENTER to continue..." << "\n";
+        cin.get();
+    }
+    cout << "You left the shop." << "\n\n";
 }

@@ -52,8 +52,7 @@ string Weapon::toString()const
             to_string(this->getLevel()) + ", rarity: " +
             to_string(this->getRarity()) + ", damage: " +
             to_string(this->damageMin) + "/" +
-            to_string(this->damageMax) + ", sell value: " +
-            to_string(this->getSellValue()) + ".";
+            to_string(this->damageMax) + ".";
     return str;
 }
 

@@ -512,7 +512,7 @@ void  Game::rest()
             this->characters[this->activeCharacter].resetHp();
             this->characters[this->activeCharacter].payGold(restCost);
             int goldBalance = this->characters[this->activeCharacter].getGold();
-            cout << "Your Hp has been restored to maximum. Current gold balance is " << goldBalance << "\n";
+            cout << "Your Hp has been restored to maximum. Current gold balance: " << goldBalance << "\n";
         }
     }
 }

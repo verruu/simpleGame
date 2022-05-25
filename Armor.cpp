@@ -70,8 +70,7 @@ string Armor::toString()const
                 this->typeStr + ", level: " +
                 to_string(this->getLevel()) + ", rarity: " +
                 to_string(this->getRarity()) + ", defence: " +
-                to_string(this->defence) + ", sell value: " +
-                to_string(this->getSellValue()) + ".";
+                to_string(this->defence) + ".";
     return str;
 }
 
