@@ -140,7 +140,9 @@ void Game::mainMenu()
 
 void Game::characterMenu()
 {
-    do {
+    bool character = true;
+
+    while (character) {
         cout << " -=CHARACTER MENU=- " << "\n\n";
 
         cout << "0: Return to Main Menu" << "\n";
@@ -165,6 +167,9 @@ void Game::characterMenu()
         cout << "\n";
 
         switch (this->choice) {
+            case 0: //BACK
+            character = false;
+                break;
             case 1: //STATS
                 this->characters[this->activeCharacter].printStats();
                 break;
@@ -189,6 +194,7 @@ void Game::characterMenu()
                 cout << "\n";
 
                 this->characters[this->activeCharacter].eqItem(this->choice);
+                cout << "Item has been equipped!" << "\n";
                 break;
             default:
                 break;
@@ -198,7 +204,7 @@ void Game::characterMenu()
             cout << "ENTER to continue..." << "\n";
             cin.get();
         }
-    } while (this->choice > 0);
+    }
 }
 
 void Game::createNewCharacter()
@@ -278,8 +284,6 @@ void Game::saveCharacters()
         for (size_t i = 0; i < this->characters.size(); i++)
         {
             outFile << this->characters[i].getAsString() << "\n";
-
-
             outFile << this->characters[i].getInvAsStringSave() << "\n";
         }
     }
@@ -399,7 +403,6 @@ void Game::loadCharacters()
             {
                 temp.addItem (Weapon(damageMin, damageMax, name, level,
                                           buyValue, sellValue, rarity));
-
             }
 
             str.clear();
@@ -413,7 +416,6 @@ void Game::loadCharacters()
             {
                 temp.addItem (Armor(type, defence, name, level,
                                      buyValue, sellValue, rarity));
-
             }
 
             this->characters.push_back(Character(temp));

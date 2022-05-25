@@ -68,7 +68,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
              " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() <<
              " Defence: " << enemies[i].getDefence() << " Accuracy: " <<
              enemies[i].getAccuracy() <<
-             "Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
+             " Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
     }
 
     //Battle variables and modifiers
@@ -426,23 +426,26 @@ void Event::shopEncounter(Character &character)
 
                 cout << inv << "\n";
 
-                cout << "Choose the item you want to buy: ";
+                cout << "Choose the item you want to buy (-1 to cancel): ";
                 cin >> choice;
 
-                while (cin.fail() || choice > merchInv.size() || choice < 0) {
+                while (cin.fail() || choice > merchInv.size() || choice < -1) {
                     //system("CLS");
                     cout << "Faulty input!" << "\n";
                     cin.clear();
                     cin.ignore(100, '\n');
 
-                    cout << "Choose the item you want to buy: ";
+                    cout << "Choose the item you want to buy (-1 to cancel): ";
                     cin >> choice;
                 }
-
                 cin.ignore(100, '\n');
                 cout << "\n";
 
-                if (character.getGold() >= merchInv[choice].getBuyValue())
+                if (choice == -1)
+                {
+                    cout << "Trade has been cancelled!" << "\n";
+                }
+                else if (character.getGold() >= merchInv[choice].getBuyValue())
                 {
                     character.payGold(merchInv[choice].getBuyValue());
                     character.addItem(merchInv[choice]);
@@ -452,6 +455,13 @@ void Event::shopEncounter(Character &character)
                     cout << "Current gold balance: " << character.getGold() << ". \n\n";
 
                     merchInv.removeItem(choice);
+                    inv.clear();
+
+                    for (size_t i = 0; i < merchInv.size(); i++)
+                    {
+                        inv += to_string(i) + ": " + merchInv[i].toString() + "\n" +
+                               " PRICE:" + to_string(merchInv[i].getBuyValue()) + "\n";
+                    }
                 }
                 else
                 {
@@ -459,7 +469,44 @@ void Event::shopEncounter(Character &character)
                 }
                 break;
             case 2: //sell
-                cout << character.getInvAsString(true) << "\n";
+                if (character.getInvSize() > 0) {
+                    cout << character.getInvAsString(true) << "\n";
+
+                    cout << "-=SELL MENU=-" << "\n\n";
+                    cout << "Your gold: " << character.getGold() << ". \n\n";
+
+                    cout << "Choose the item you want to sell (-1 to cancel): ";
+                    cin >> choice;
+
+                    while (cin.fail() || choice > character.getInvSize() || choice < -1) {
+                        //system("CLS");
+                        cout << "Faulty input!" << "\n";
+                        cin.clear();
+                        cin.ignore(100, '\n');
+
+                        cout << "Choose the item you want to sell (-1 to cancel): ";
+                        cin >> choice;
+                    }
+                    cin.ignore(100, '\n');
+                    cout << "\n";
+
+                    if (choice == -1)
+                    {
+                        cout << "Trade has been cancelled!" << "\n";
+                    }
+                    else
+                    {
+                        int goldEarned = character.getItem(choice).getSellValue();
+                        character.gainGold(goldEarned);
+                        cout << "Item has been sold. Gained " << goldEarned << " gold." << "\n\n";
+
+                        character.removeItem(choice);
+                    }
+                }
+                else
+                {
+                    cout << "You have nothing to sell." << "\n";
+                }
                 break;
             default:
                 break;

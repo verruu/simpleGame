@@ -26,6 +26,8 @@ void updateStats();
 void addToStat(int stat, int value);
 inline void resetHp() { this->hp = this->hpMax; }
 void addItem(const Item &item) { this->inventory.addItem(item); }
+void removeItem(const int index);
+const Item& getItem(const int index);
 void eqItem(unsigned index);
 
 //accessors

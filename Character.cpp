@@ -312,6 +312,26 @@ void Character::eqItem(unsigned index)
     }
 }
 
+void Character::removeItem(const int index)
+{
+    if (index < 0 || index >= this->inventory.size())
+        throw runtime_error("Out of bounds remove!");
+    else
+    {
+        this->inventory.removeItem(index);
+    }
+}
+
+const Item& Character::getItem(const int index)
+{
+    if (index < 0 || index >= this->inventory.size())
+        throw runtime_error("Out of bounds operation!");
+    else
+    {
+        return this->inventory[index];
+    }
+}
+
 string Character::getInvAsString(bool shop)
 {
     string inv;
