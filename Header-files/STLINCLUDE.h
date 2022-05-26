@@ -11,5 +11,6 @@
 #include<iomanip>
 
 #include"dArr.h"
+#include"Functions.h"
 
 using namespace std;
