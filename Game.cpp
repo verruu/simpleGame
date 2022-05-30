@@ -114,15 +114,15 @@ void Game::mainMenu()
             default:
                 break;
         }
-        cout << "ENTER to continue..." << "\n";
+        cout << "ENTER to continue...";
         cin.get();
-        cout << gui::menu_divider();
+        cout << "\n" << gui::menu_divider();
     }
     else
     {
-        cout << "YOU HAVE DIED!" << "\n";
-        cout << "CONTINUE?" << "\n";
-        cout << "(0) Yes / (1) No" << "\n";
+        cout << "YOU HAVE DIED!" << "\n\n";
+        cout << "CONTINUE?" << "\n\n";
+        cout << "(0) Yes / (1) No: ";
         cin >> this->choice;
 
         while (cin.fail() || this->choice < 0 || this->choice > 1)
@@ -132,12 +132,13 @@ void Game::mainMenu()
             cin.ignore(100, '\n');
 
             cout << "CONTINUE?" << "\n";
-            cout << "(0) Yes / (1) No" << "\n";
+            cout << "(0) Yes / (1) No: ";
             cin >> this->choice;
         }
 
         cin.ignore(100, '\n');
         cout << "\n";
+        cout << gui::menu_divider();
 
         if (this->choice == 0)
             this->loadCharacters();
@@ -173,14 +174,15 @@ void Game::characterMenu()
             cout << "\n" << "Choice: ";
             cin >> this->choice;
         }
-
         cin.ignore(100, '\n');
         cout << "\n";
         cout << gui::menu_divider();
 
-        switch (this->choice) {
+        switch (this->choice)
+        {
             case 0: //BACK
             character = false;
+            cout << "Returning to main menu." << "\n\n";
                 break;
             case 1: //STATS
                 this->characters[this->activeCharacter].printStats();
@@ -189,10 +191,11 @@ void Game::characterMenu()
                 cout << this->characters[this->activeCharacter].getInvAsString() << "\n";
                 break;
             case 3: //EQUIP
-                cout << "\n" << "Choose an item to equip: ";
+                cout << this->characters[this->activeCharacter].getInvAsString() << "\n";
+                cout << "Choose an item to equip (-1 to cancel): ";
                 cin >> this->choice;
 
-                while (cin.fail() || this->choice < 0 || this->choice >= this->characters[this->activeCharacter].getInvSize())
+                while (cin.fail() || this->choice < -1 || this->choice >= this->characters[this->activeCharacter].getInvSize())
                 {
                     cout << "Faulty input!" << "\n";
                     cin.clear();
@@ -201,21 +204,29 @@ void Game::characterMenu()
                     cout << "\n" << "Choose an item to equip: ";
                     cin >> this->choice;
                 }
-
                 cin.ignore(100, '\n');
                 cout << "\n";
+                cout << gui::menu_divider();
 
-                this->characters[this->activeCharacter].eqItem(this->choice);
-                cout << "Item has been equipped!" << "\n";
+                if (choice == -1)
+                {
+                    cout << "Equip operation has been cancelled!" << "\n\n";
+                }
+                else
+                {
+                    this->characters[this->activeCharacter].eqItem(this->choice);
+                    cout << "Item has been equipped!" << "\n\n";
+                }
                 break;
             default:
                 break;
         }
+        cout << gui::menu_divider();
         if (this->choice > 0)
         {
-            cout << "ENTER to continue..." << "\n";
+            cout << "ENTER to continue...";
             cin.get();
-            cout << gui::menu_divider();
+            cout << "\n" << gui::menu_divider();
         }
     }
 }
@@ -230,7 +241,7 @@ void Game::createNewCharacter()
     {
         while (name == this->characters[i].getName())
         {
-            cout << "Error! Character already exists!" << "\n";
+            cout << "\n" << "Error! Character already exists!" << "\n\n";
             cout << "Enter your character name: ";
             getline(cin, name);
         }
@@ -248,11 +259,14 @@ void Game::levelUpCharacter()
     if (this->characters[activeCharacter].getStatPoints() > 0)
     {
         cout << "You have stat points to allocate!" << "\n\n";
-        cout << "Which stat do you want to upgrade?" << "\n";
-        cout << "0: Strength " << "\n";
-        cout << "1: Vitality " << "\n";
-        cout << "2: Dexterity " << "\n";
-        cout << "3: Intelligence " << "\n";
+        cout << gui::menu_divider();
+        cout << "Which stat do you want to upgrade?" << "\n\n";
+        cout << gui::menu_item(0, "Strength");
+        cout << gui::menu_item(1, "Vitality");
+        cout << gui::menu_item(2, "Dexterity");
+        cout << gui::menu_item(3, "Intelligence");
+        cout << "\n";
+        cout << "Choice: ";
         cin >> this->choice;
 
         while (cin.fail() || this->choice > 3)
@@ -261,12 +275,13 @@ void Game::levelUpCharacter()
             cin.clear();
             cin.ignore(100, '\n');
 
-            cout << "Which stat do you want to upgrade?" << "\n";
+            cout << "Which stat do you want to upgrade?";
             cin >> this->choice;
         }
 
         cin.ignore(100, '\n');
         cout << "\n";
+        cout << gui::menu_divider();
 
         switch (this->choice)
         {
@@ -301,6 +316,8 @@ void Game::saveCharacters()
         }
     }
     outFile.close();
+    cout << "Save successful!" << "\n\n";
+    cout << gui::menu_divider();
 }
 
 void Game::loadCharacters()
@@ -464,15 +481,19 @@ void Game::selectCharacter()
         cin.clear();
         cin.ignore(100, '\n');
 
-        cout << "Select character: " << "\n";
+        cout << "Select character: ";
         cin >> this->choice;
+        cout << "\n";
     }
 
     cin.ignore(100, '\n');
     cout << "\n";
+    cout << gui::menu_divider();
 
     this->activeCharacter = this->choice;
     cout << this->characters[this->activeCharacter].getName() << " selected!" << "\n\n";
+    cout << gui::menu_divider();
+
 }
 
 void Game::Travel()
@@ -490,7 +511,9 @@ void  Game::rest()
     int currHp = this->characters[this->activeCharacter].getHp();
     int maxHp = this->characters[this->activeCharacter].getHpMax();
 
-    cout << "-=REST=-" << "\n\n";
+    cout << gui::menu_title("REST");
+    cout << gui::menu_divider();
+
     cout << "You have " << currHp << "/" << maxHp << " Hp." << "\n";
 
 
@@ -502,13 +525,14 @@ void  Game::rest()
     }
     else if (currHp >= maxHp)
     {
-        cout << "You are well rested already." << "\n";
+        cout << "You are well rested already." << "\n\n";
+        cout << gui::menu_divider();
     }
     else
     {
         cout << "You have " << charGold << " gold." << "\n";
         cout << "Resting will cost you " << restCost << " gold." << "\n";
-        cout << "Do you want to rest? (1) Yes, (0) No." << "\n";
+        cout << "Do you want to rest? (1) Yes, (0) No: ";
         cin >> this->choice;
 
         while (cin.fail() || this->choice > 1 || this->choice < 0) {
@@ -516,19 +540,20 @@ void  Game::rest()
             cin.clear();
             cin.ignore(100, '\n');
 
-            cout << "Do you want to rest? (1) Yes, (0) No." << "\n";
+            cout << "Do you want to rest? (1) Yes, (0) No: ";
             cin >> this->choice;
         }
-
         cin.ignore(100, '\n');
         cout << "\n";
+        cout << gui::menu_divider();
 
         if (this->choice == 1)
         {
             this->characters[this->activeCharacter].resetHp();
             this->characters[this->activeCharacter].payGold(restCost);
             int goldBalance = this->characters[this->activeCharacter].getGold();
-            cout << "Your Hp has been restored to maximum. Current gold balance: " << goldBalance << "\n";
+            cout << "Your Hp has been restored to maximum. Current gold balance: " << goldBalance << "\n\n";
         }
+        cout << gui::menu_divider();
     }
 }

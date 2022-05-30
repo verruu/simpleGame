@@ -193,10 +193,12 @@ void Character::levelUp()
         this->skillPoints++;
 
         cout << "You are now level " << level << "!" << "\n\n";
+        cout << gui::menu_divider();
     }
     else
     {
         cout << "Not enough EXP!" << "\n\n";
+        cout << gui::menu_divider();
     }
 }
 
@@ -204,7 +206,7 @@ void Character::addToStat(int stat, int value)
 {
     if (this->statPoints < value)
     {
-        cout << "ERROR! Not enough stat points!" << "\n";
+        cout << "ERROR! Not enough stat points!" << "\n\n";
     }
     else
     {
@@ -212,25 +214,26 @@ void Character::addToStat(int stat, int value)
         {
             case 0: //STRENGTH
                 this->strength += value;
-                cout << "Strength increased!" << "\n";
+                cout << "Strength increased!" << "\n\n";
                 break;
             case 1: //VITALITY
                 this->vitality += value;
-                cout << "Vitality increased!" << "\n";
+                cout << "Vitality increased!" << "\n\n";
                 break;
             case 2: //DEXTERITY
                 this->dexterity += value;
-                cout << "Dexterity increased!" << "\n";
+                cout << "Dexterity increased!" << "\n\n";
                 break;
             case 3: //INTELLIGENCE
                 this->intelligence += value;
-                cout << "Intelligence increased!" << "\n";
+                cout << "Intelligence increased!" << "\n\n";
                 break;
             default:
-                cout << "No such stat!" << "\n";
+                cout << "No such stat!" << "\n\n";
                 break;
         }
         this->statPoints -= value;
+        cout << gui::menu_divider();
     }
 }
 

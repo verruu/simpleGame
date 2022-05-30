@@ -15,19 +15,23 @@ Event::~Event()
 void Event::generateEvent(Character &character, dArr<Enemy>& enemies)
 {
     int i = rand() % Event::nrOfEvents;
+//int i = 3;
 
     switch (i)
     {
         case 0:
-            cout << "Enemy attack!\n";
+            cout << gui::menu_title("ENEMY ATTACK!");
+            cout << gui::menu_divider();
             this->enemyEncounter(character, enemies);
             break;
         case 1:
-            cout << "You've got a puzzle to solve!\n";
+            cout << "You've got a puzzle to solve!" << "\n\n";
+            cout << gui::menu_divider();
             this->puzzleEncounter(character);
             break;
         case 2:
-            cout << "You've found a wandering merchant who wants to trade with you.\n";
+            cout << "You've found a wandering merchant who wants to trade with you.\n\n";
+            cout << gui::menu_divider();
             this->shopEncounter(character);
             break;
         case 3:
@@ -73,6 +77,8 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
              enemies[i].getAccuracy() <<
              " Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
     }
+    cout << "\n";
+    cout << gui::menu_divider();
 
     //Battle variables and modifiers
     int damage = 0;
@@ -88,17 +94,20 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
     {
         if (playerTurn && !playerDefeated)
         {
-            cout << "-=PLAYER TURN!=-" << "\n";
-            cout << "Continue.." << "\n\n";
+            cout << gui::menu_title("PLAYER TURN");
+            cout << gui::menu_divider();
+            cout << "Continue..";
             cin.get();
+            cout << "\n" << gui::menu_divider();
 
-            cout << "-=Battle menu=-" << "\n\n";
+            cout << gui::menu_title("BATTLE MENU");
+            cout << gui::menu_divider();
             cout << "Your Hp: " <<
             character.getHp() << "/" << character.getHpMax() << ". \n\n";
-            cout << "0: Escape" << "\n";
-            cout << "1: Attack" << "\n";
-            cout << "2: Defend" << "\n";
-            cout << "3: Use item" << "\n";
+            cout << gui::menu_item(0, "Escape");
+            cout << gui::menu_item(1, "Attack");
+            cout << gui::menu_item(2, "Defend");
+            cout << gui::menu_item(3, "Use item");
             cout << "\n";
             cout << "Choose your action: ";
             cin >> choice;
@@ -110,18 +119,12 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                 cin.clear();
                 cin.ignore(100, '\n');
 
-                cout << "-=Battle menu=-" << "\n\n";
-                cout << "0: Escape" << "\n";
-                cout << "1: Attack" << "\n";
-                cout << "2: Defend" << "\n";
-                cout << "3: Use item" << "\n";
-                cout << "\n";
-                cout << "Choose your action: ";
+                cout << "\n" << "Choose your action: ";
                 cin >> choice;
             }
-
             cin.ignore(100, '\n');
             cout << "\n";
+            cout << gui::menu_divider();
 
             switch (choice)
             {
@@ -130,7 +133,8 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                 {
                     enemies.remove(i);
                 }
-                cout << "You have escaped the battle successfully!" << "\n";
+                cout << "You have escaped the battle successfully!" << "\n\n";
+                cout << gui::menu_divider();
                 escape = true;
                     break;
                 case 1: //ATTACK
@@ -158,14 +162,13 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                         cin.clear();
                         cin.ignore(100, '\n');
 
-                        cout << "Select enemy: " << "\n\n";
-
-                        cout << "Choice: ";
+                        cout << "\n" << "Select enemy: ";
                         cin >> choice;
                     }
 
                     cin.ignore(100, '\n');
                     cout << "\n";
+                    cout << gui::menu_divider();
 
                 //Attack roll
                 combatRollPlayer = rand() % 100 + 1;
@@ -240,10 +243,12 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                             }
                         }
                     }
+                    cout << "\n" << gui::menu_divider();
                 }
                 else //MISS
                 {
                     cout << "You missed!" << "\n\n";
+                    cout << gui::menu_divider();
                 }
                     break;
                 case 2: //DEFEND
@@ -253,14 +258,16 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                 default:
                     break;
             }
-
+//            cout << "\n" << gui::menu_divider();
             playerTurn = false;
         }
         else if (!playerTurn && !playerDefeated && !escape && !enemiesDefeated)
         {
-            cout << "-=ENEMY TURN!=-" << "\n";
-            cout << "Continue.." << "\n\n";
+            cout << gui::menu_title("ENEMY TURN");
+            cout << gui::menu_divider();
+            cout << "Continue..";
             cin.get();
+            cout << "\n" << gui::menu_divider();
 
             for (size_t i = 0; i < enemies.size(); i++)
             {
@@ -298,10 +305,11 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                 {
                     cout << "Enemy missed!" << "\n\n";
                 }
-                cout << "Continue.." << "\n\n";
+                cout << "Continue..";
                 cin.get();
+                cout << "\n" << gui::menu_divider();
             }
-
+//            cout << "\n" << gui::menu_divider();
             playerTurn = true;
         }
 
@@ -328,9 +336,10 @@ void Event::puzzleEncounter(Character &character)
     while(!completed && chances > 0)
     {
         cout << "Chances left: " << chances << "\n\n";
-        cout << puzzle.getAsString() << "\n";
+        cout << gui::menu_divider();
+        cout << puzzle.getAsString();
 
-        cout << "\nYour answer: ";
+        cout << "\n" << "Your answer: ";
         cin >> userAns;
 
         while (cin.fail())
@@ -339,12 +348,13 @@ void Event::puzzleEncounter(Character &character)
             cin.clear();
             cin.ignore(100, '\n');
 
-            cout << "\nYour answer: ";
+            cout << "\n" << "Your answer: ";
             cin >> userAns;
         }
 
         cin.ignore(100, '\n');
         cout << "\n";
+        cout << gui::menu_divider();
 
         if (puzzle.getCorrectAns() == userAns)
         {
@@ -353,15 +363,17 @@ void Event::puzzleEncounter(Character &character)
             character.gainExp(gainExp);
             int gainGold = chances * (rand() % 5 + 5);
             character.gainGold(gainGold);
+            cout << "CONGRATZ! YOU HAVE SUCCEEDED! \n\n";
             cout << "You gained " << gainExp << " EXP and " << gainGold << " gold!" << "\n";
         }
         chances--;
     }
     if (completed)
     {
-        cout << "CONGRATZ! YOU SUCCEEDED! \n\n";
+        cout << "\n" << gui::menu_divider();
     } else {
         cout << "YOU FAILED BRAH! \n\n";
+        cout << gui::menu_divider();
     }
 }
 
@@ -392,11 +404,12 @@ void Event::shopEncounter(Character &character)
     }
 
     while (shopping) {
-        cout << "-=Shop menu=-" << "\n\n";
+        cout << gui::menu_title("SHOP MENU");
+        cout << gui::menu_divider();
         cout << "Your gold: " << character.getGold() << ". \n\n";
-        cout << "0: Leave" << "\n";
-        cout << "1: Buy" << "\n";
-        cout << "2: Sell" << "\n";
+        cout << gui::menu_item(0, "Leave");
+        cout << gui::menu_item(1, "Buy");
+        cout << gui::menu_item(2, "Sell");
         cout << "\n";
         cout << "Choose your action: ";
         cin >> choice;
@@ -407,12 +420,13 @@ void Event::shopEncounter(Character &character)
             cin.clear();
             cin.ignore(100, '\n');
 
-            cout << "Choose your action: ";
+            cout << "\n" << "Choose your action: ";
             cin >> choice;
         }
 
         cin.ignore(100, '\n');
         cout << "\n";
+        cout << gui::menu_divider();
 
         switch (choice) {
             case 0: //leave the shop
@@ -425,6 +439,7 @@ void Event::shopEncounter(Character &character)
             case 1: //buy
 
                 cout << "-=BUY MENU=-" << "\n\n";
+                cout << gui::menu_divider();
                 cout << "Your gold: " << character.getGold() << ". \n\n";
 
                 cout << inv << "\n";
@@ -438,15 +453,17 @@ void Event::shopEncounter(Character &character)
                     cin.clear();
                     cin.ignore(100, '\n');
 
-                    cout << "Choose the item you want to buy (-1 to cancel): ";
+                    cout << "\n" << "Choose the item you want to buy (-1 to cancel): ";
                     cin >> choice;
                 }
                 cin.ignore(100, '\n');
                 cout << "\n";
+                cout << gui::menu_divider();
 
                 if (choice == -1)
                 {
                     cout << "Trade has been cancelled!" << "\n";
+                    cout << "\n" << gui::menu_divider();
                 }
                 else if (character.getGold() >= merchInv[choice].getBuyValue())
                 {
@@ -455,7 +472,8 @@ void Event::shopEncounter(Character &character)
 
                     cout << "You have bought " << merchInv[choice].getName() << " for "
                          << merchInv[choice].getBuyValue() << " gold." << "\n";
-                    cout << "Current gold balance: " << character.getGold() << ". \n\n";
+                    cout << "Current gold balance: " << character.getGold() << ". \n";
+                    cout << "\n" << gui::menu_divider();
 
                     merchInv.removeItem(choice);
                     inv.clear();
@@ -469,14 +487,14 @@ void Event::shopEncounter(Character &character)
                 else
                 {
                     cout << "You can not afford that item." << "\n";
+                    cout << "\n" << gui::menu_divider();
                 }
                 break;
             case 2: //sell
                 if (character.getInvSize() > 0) {
-                    cout << character.getInvAsString(true) << "\n";
-
                     cout << "-=SELL MENU=-" << "\n\n";
                     cout << "Your gold: " << character.getGold() << ". \n\n";
+                    cout << character.getInvAsString(true) << "\n";
 
                     cout << "Choose the item you want to sell (-1 to cancel): ";
                     cin >> choice;
@@ -487,22 +505,24 @@ void Event::shopEncounter(Character &character)
                         cin.clear();
                         cin.ignore(100, '\n');
 
-                        cout << "Choose the item you want to sell (-1 to cancel): ";
+                        cout << "\n" << "Choose the item you want to sell (-1 to cancel): ";
                         cin >> choice;
                     }
                     cin.ignore(100, '\n');
                     cout << "\n";
+                    cout << gui::menu_divider();
 
                     if (choice == -1)
                     {
                         cout << "Trade has been cancelled!" << "\n";
+                        cout << "\n" << gui::menu_divider();
                     }
                     else
                     {
                         int goldEarned = character.getItem(choice).getSellValue();
                         character.gainGold(goldEarned);
                         cout << "Item has been sold. Gained " << goldEarned << " gold." << "\n\n";
-
+                        cout << gui::menu_divider();
                         character.removeItem(choice);
                     }
                 }
@@ -514,10 +534,12 @@ void Event::shopEncounter(Character &character)
             default:
                 break;
         }
-        cout << "ENTER to continue..." << "\n";
+        cout << "ENTER to continue...";
         cin.get();
+        cout << "\n" << gui::menu_divider();
     }
-    cout << "You left the shop." << "\n\n";
+    cout << "You left the shop." << "\n";
+    cout << "\n" << gui::menu_divider();
 }
 
 //void Event::bossEncounter(Character &character, Boss &boss)
