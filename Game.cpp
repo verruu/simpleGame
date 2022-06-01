@@ -36,49 +36,53 @@ void Game::mainMenu()
 {
     if (this->characters[activeCharacter].isAlive())
     {
-        cout << gui::menu_title("MAIN MENU");
-        cout << gui::menu_divider();
+        stringstream menu_str;
 
-        cout << "ACTIVE CHARACTER: " <<
+        menu_str << gui::menu_title("MAIN MENU");
+        menu_str << gui::menu_divider();
+
+        menu_str << "ACTIVE CHARACTER: " <<
              this->characters[activeCharacter].getName() << ". Nr " <<
              this->activeCharacter + 1 << "/" << this->characters.size() << ".\n\n";
-        cout << gui::menu_divider();
+        menu_str << gui::menu_divider();
 
         if (this->characters[activeCharacter].getExp() >=
             this->characters[activeCharacter].getExpNext())
         {
-            cout << "LEVEL UP AVAILABLE!" << "\n\n";
-            cout << gui::menu_divider();
+            menu_str << gui::alert("LEVEL UP AVAILABLE!");
+            menu_str << gui::menu_divider();
         }
 
-        cout << gui::menu_item(0, "Quit");
-        cout << gui::menu_item(1, "Travel");
-        cout << gui::menu_item(2, "Shop");
-        cout << gui::menu_item(3, "Level Up");
-        cout << gui::menu_item(4, "Rest");
-        cout << gui::menu_item(5, "Character menu");
-        cout << gui::menu_item(6, "Create a new character");
-        cout << gui::menu_item(7, "Select a character");
-        cout << gui::menu_item(8, "Save characters");
-        cout << gui::menu_item(9, "Load characters");
-        cout << "\n";
-        cout << gui::menu_divider();
+        menu_str << gui::menu_item(0, "Quit");
+        menu_str << gui::menu_item(1, "Travel");
+        menu_str << gui::menu_item(2, "Shop");
+        menu_str << gui::menu_item(3, "Level Up");
+        menu_str << gui::menu_item(4, "Rest");
+        menu_str << gui::menu_item(5, "Character menu");
+        menu_str << gui::menu_item(6, "Create a new character");
+        menu_str << gui::menu_item(7, "Select a character");
+        menu_str << gui::menu_item(8, "Save characters");
+        menu_str << gui::menu_item(9, "Load characters");
+        menu_str << "\n";
+        menu_str << gui::menu_divider();
 
-        cout << "Choice: ";
-        cin >> this->choice;
+//        menu_str << "Choice: ";
+//        cin >> this->choice;
+//
+//        while (cin.fail()) {
+//            cout << "Faulty input!" << "\n";
+//            cin.clear();
+//            cin.ignore(100, '\n');
+//
+//            cout << "\n" << "Choice: ";
+//            cin >> this->choice;
+//        }
+//
+//        cin.ignore(100, '\n');
+//        cout << "\n";
+//        cout << gui::menu_divider();
 
-        while (cin.fail()) {
-            cout << "Faulty input!" << "\n";
-            cin.clear();
-            cin.ignore(100, '\n');
-
-            cout << "\n" << "Choice: ";
-            cin >> this->choice;
-        }
-
-        cin.ignore(100, '\n');
-        cout << "\n";
-        cout << gui::menu_divider();
+        getChoice(this->choice, menu_str.str(), 1);
 
         switch (choice) {
             case 0: //QUIT
@@ -112,6 +116,8 @@ void Game::mainMenu()
                 loadCharacters();
                 break;
             default:
+                cout << "ERROR: MENU OPTION NON EXISTENT!" << "\n\n";
+                cout << gui::menu_divider();
                 break;
         }
         cout << "ENTER to continue...";

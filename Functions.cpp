@@ -20,3 +20,10 @@ const std::string gui::menu_item(const unsigned index, const std::string text)
     ss << "-" << " (" << index << ") " << text << "\n";
     return ss.str();
 }
+
+const std::string gui::alert(const std::string message)
+{
+    std::stringstream ss;
+    ss << "[[ " << message << " ]]" << "\n\n";
+    return ss.str();
+}

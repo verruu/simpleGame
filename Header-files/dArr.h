@@ -27,6 +27,7 @@ public:
     unsigned size();
     void push(T element);
     void remove(unsigned index, bool ordered = false);
+    void clear();
 };
 
 template <typename T>
@@ -167,4 +168,15 @@ void dArr<T>::remove( const unsigned index, bool ordered)
         this->arr[index] = this->arr[this->nrOfEl-1];
         this->arr[--this->nrOfEl] = nullptr;
     }
+}
+
+template <typename T>
+void dArr<T>::clear()
+{
+    for (size_t i = 0; i < this->nrOfEl; i++)
+    {
+        delete this->arr[i];
+    }
+    this->nrOfEl = 0;
+    this->initialize(0);
 }

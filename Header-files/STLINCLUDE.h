@@ -12,5 +12,6 @@
 
 #include"dArr.h"
 #include"Functions.h"
+#include"Gfunctions.h"
 
 using namespace std;

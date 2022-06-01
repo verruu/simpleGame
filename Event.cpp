@@ -62,6 +62,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
     bool enemiesDefeated = false;
 
     //Enemies
+    enemies.clear();
     int nrOfEnemies = rand() % 5 + 1;
 
     for (size_t i = 0; i < nrOfEnemies; i++)
@@ -129,10 +130,10 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
             switch (choice)
             {
                 case 0: //ESCAPE
-                for (size_t i = 0; i < enemies.size(); i++)
-                {
-                    enemies.remove(i);
-                }
+//                for (size_t i = 0; i < enemies.size(); i++)
+//                {
+//                    enemies.remove(i);
+//                }
                 cout << "You have escaped the battle successfully!" << "\n\n";
                 cout << gui::menu_divider();
                 escape = true;
@@ -226,7 +227,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                                 }
                             }
                         }
-                        if (roll >= 0)
+                        if (rarity >= 0)
                         {
                             roll = rand() % 100 + 1;
                             if (roll > 50)
@@ -293,10 +294,10 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
 
                     if (!character.isAlive())
                     {
-                        for (size_t i = 0; i < enemies.size(); i++)
-                        {
-                            enemies.remove(i);
-                        }
+//                        for (size_t i = 0; i < enemies.size(); i++)
+//                        {
+//                            enemies.remove(i);
+//                        }
                         cout << "YOU ARE DEFEATED!" << "\n\n";
                         playerDefeated = true;
                     }
@@ -576,6 +577,8 @@ void Event::shopEncounter(Character &character)
 //             enemies[i].getAccuracy() <<
 //             " Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
 //    }
+//    cout << "\n";
+//    cout << gui::menu_divider();
 //
 //    //Battle variables and modifiers
 //    int damage = 0;
@@ -591,17 +594,20 @@ void Event::shopEncounter(Character &character)
 //    {
 //        if (playerTurn && !playerDefeated)
 //        {
-//            cout << "-=PLAYER TURN!=-" << "\n";
-//            cout << "Continue.." << "\n\n";
+//            cout << gui::menu_title("PLAYER TURN");
+//            cout << gui::menu_divider();
+//            cout << "Continue..";
 //            cin.get();
+//            cout << "\n" << gui::menu_divider();
 //
-//            cout << "-=Battle menu=-" << "\n\n";
+//            cout << gui::menu_title("BATTLE MENU");
+//            cout << gui::menu_divider();
 //            cout << "Your Hp: " <<
-//                 character.getHp() << "/" << character.getHpMax() << ". \n\n";
-//            cout << "0: Escape" << "\n";
-//            cout << "1: Attack" << "\n";
-//            cout << "2: Defend" << "\n";
-//            cout << "3: Use item" << "\n";
+//            character.getHp() << "/" << character.getHpMax() << ". \n\n";
+//            cout << gui::menu_item(0, "Escape");
+//            cout << gui::menu_item(1, "Attack");
+//            cout << gui::menu_item(2, "Defend");
+//            cout << gui::menu_item(3, "Use item");
 //            cout << "\n";
 //            cout << "Choose your action: ";
 //            cin >> choice;
@@ -613,41 +619,36 @@ void Event::shopEncounter(Character &character)
 //                cin.clear();
 //                cin.ignore(100, '\n');
 //
-//                cout << "-=Battle menu=-" << "\n\n";
-//                cout << "0: Escape" << "\n";
-//                cout << "1: Attack" << "\n";
-//                cout << "2: Defend" << "\n";
-//                cout << "3: Use item" << "\n";
-//                cout << "\n";
-//                cout << "Choose your action: ";
+//                cout << "\n" << "Choose your action: ";
 //                cin >> choice;
 //            }
-//
 //            cin.ignore(100, '\n');
 //            cout << "\n";
+//            cout << gui::menu_divider();
 //
 //            switch (choice)
 //            {
 //                case 0: //ESCAPE
-//                    for (size_t i = 0; i < enemies.size(); i++)
-//                    {
-//                        enemies.remove(i);
-//                    }
-//                    cout << "You have escaped the battle successfully!" << "\n";
-//                    escape = true;
+//                for (size_t i = 0; i < enemies.size(); i++)
+//                {
+//                    enemies.remove(i);
+//                }
+//                cout << "You have escaped the battle successfully!" << "\n\n";
+//                cout << gui::menu_divider();
+//                escape = true;
 //                    break;
 //                case 1: //ATTACK
 //
-//                    //Enemy selection
+//                //Enemy selection
 //                    cout << "Select enemy: " << "\n\n";
 //
 //                    for (size_t i = 0; i < enemies.size(); i++)
 //                    {
 //                        cout << i << ": " << "Level: " << enemies[i].getLevel() <<
-//                             " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() <<
-//                             " Defence: " << enemies[i].getDefence() << " Accuracy: " <<
-//                             enemies[i].getAccuracy() <<
-//                             " Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
+//                        " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() <<
+//                        " Defence: " << enemies[i].getDefence() << " Accuracy: " <<
+//                        enemies[i].getAccuracy() <<
+//                        " Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
 //                    }
 //
 //                    cout << "\n";
@@ -661,93 +662,94 @@ void Event::shopEncounter(Character &character)
 //                        cin.clear();
 //                        cin.ignore(100, '\n');
 //
-//                        cout << "Select enemy: " << "\n\n";
-//
-//                        cout << "Choice: ";
+//                        cout << "\n" << "Select enemy: ";
 //                        cin >> choice;
 //                    }
 //
 //                    cin.ignore(100, '\n');
 //                    cout << "\n";
+//                    cout << gui::menu_divider();
 //
-//                    //Attack roll
-//                    combatRollPlayer = rand() % 100 + 1;
+//                //Attack roll
+//                combatRollPlayer = rand() % 100 + 1;
 //
-//                    combatTotal = enemies[choice].getDefence() + character.getAccuracy();
-//                    enemyTotal = enemies[choice].getDefence() / (double)combatTotal * 100;
-//                    playerTotal = character.getAccuracy() / (double)combatTotal * 100;
-//                    combatRollPlayer = rand() % playerTotal + 1;
-//                    combatRollEnemy = rand() % enemyTotal + 1;
+//                combatTotal = enemies[choice].getDefence() + character.getAccuracy();
+//                enemyTotal = enemies[choice].getDefence() / (double)combatTotal * 100;
+//                playerTotal = character.getAccuracy() / (double)combatTotal * 100;
+//                combatRollPlayer = rand() % playerTotal + 1;
+//                combatRollEnemy = rand() % enemyTotal + 1;
 //
 ////                cout << combatTotal << "\n";
 ////                cout << enemyTotal << "\n";
 ////                cout << playerTotal << "\n";
 //
-//                    cout << "Player rolled: " << combatRollPlayer << "\n";
-//                    cout << "Enemy rolled: " << combatRollEnemy << "\n\n";
+//                cout << "Player rolled: " << combatRollPlayer << "\n";
+//                cout << "Enemy rolled: " << combatRollEnemy << "\n\n";
 //
-//                    if (combatRollPlayer > combatRollEnemy) //HIT
+//                if (combatRollPlayer > combatRollEnemy) //HIT
+//                {
+//                    cout << "Hit!" << "\n\n";
+//                    damage = character.getDamage();
+//                    enemies[choice].takeDamage(damage);
+//
+//                    cout << damage << " damage dealt!" << "\n\n";
+//
+//                    if (!enemies[choice].isAlive())
 //                    {
-//                        cout << "Hit!" << "\n\n";
-//                        damage = character.getDamage();
-//                        enemies[choice].takeDamage(damage);
-//
-//                        cout << damage << " damage dealt!" << "\n\n";
-//
-//                        if (!enemies[choice].isAlive())
-//                        {
-//                            gainExp = enemies[choice].getExp();
-//                            character.gainExp(gainExp);
-//                            gainGold = enemies[choice].getGold();
-//                            character.gainGold(gainGold);
-//                            cout << "Enemy defeated! Gained " << gainExp << " experience!" << "\n";
-//                            cout << "You gained " << gainGold << " gold!" << "\n\n";
-//                            enemies.remove(choice);
+//                        gainExp = enemies[choice].getExp();
+//                        character.gainExp(gainExp);
+//                        gainGold = enemies[choice].getGold();
+//                        character.gainGold(gainGold);
+//                        cout << "Enemy defeated! Gained " << gainExp << " experience!" << "\n";
+//                        cout << "You gained " << gainGold << " gold!" << "\n\n";
+//                        enemies.remove(choice);
 //
 ////                      Item roll
-//                            int roll = rand() % 100 + 1;
-//                            int rarity = -1;
+//                        int roll = rand() % 100 + 1;
+//                        int rarity = -1;
 //
-//                            if (roll > 20)
+//                        if (roll > 20)
+//                        {
+//                            rarity = 0;
+//                            if (roll > 30)
 //                            {
-//                                rarity = 0;
-//                                if (roll > 30)
+//                                rarity = 1;
+//                                if (roll > 60)
 //                                {
-//                                    rarity = 1;
-//                                    if (roll > 60)
+//                                    rarity = 2;
+//                                    if (roll > 85)
 //                                    {
-//                                        rarity = 2;
-//                                        if (roll > 85)
-//                                        {
-//                                            rarity = 3;
-//                                            if (roll > 95)
-//                                                rarity = 4;
-//                                        }
+//                                        rarity = 3;
+//                                        if (roll > 95)
+//                                            rarity = 4;
 //                                    }
 //                                }
 //                            }
-//                            if (roll >= 0)
+//                        }
+//                        if (rarity >= 0)
+//                        {
+//                            roll = rand() % 100 + 1;
+//                            if (roll > 50)
 //                            {
-//                                roll = rand() % 100 + 1;
-//                                if (roll > 50)
-//                                {
-//                                    Weapon tempW(character.getLevel() + rand() % 3, rarity);
-//                                    character.addItem(tempW);
-//                                    cout << "Enemy dropped a weapon!" << "\n";
-//                                }
-//                                else
-//                                {
-//                                    Armor tempA(character.getLevel() + rand() % 3, rarity);
-//                                    character.addItem(tempA);
-//                                    cout << "Enemy dropped an armor!" << "\n";
-//                                }
+//                                Weapon tempW(character.getLevel() + rand() % 3, rarity);
+//                                character.addItem(tempW);
+//                                cout << "Enemy dropped a weapon!" << "\n";
+//                            }
+//                            else
+//                            {
+//                                Armor tempA(character.getLevel() + rand() % 3, rarity);
+//                                character.addItem(tempA);
+//                                cout << "Enemy dropped an armor!" << "\n";
 //                            }
 //                        }
 //                    }
-//                    else //MISS
-//                    {
-//                        cout << "You missed!" << "\n\n";
-//                    }
+//                    cout << "\n" << gui::menu_divider();
+//                }
+//                else //MISS
+//                {
+//                    cout << "You missed!" << "\n\n";
+//                    cout << gui::menu_divider();
+//                }
 //                    break;
 //                case 2: //DEFEND
 //                    break;
@@ -756,14 +758,16 @@ void Event::shopEncounter(Character &character)
 //                default:
 //                    break;
 //            }
-//
+////            cout << "\n" << gui::menu_divider();
 //            playerTurn = false;
 //        }
 //        else if (!playerTurn && !playerDefeated && !escape && !enemiesDefeated)
 //        {
-//            cout << "-=ENEMY TURN!=-" << "\n";
-//            cout << "Continue.." << "\n\n";
+//            cout << gui::menu_title("ENEMY TURN");
+//            cout << gui::menu_divider();
+//            cout << "Continue..";
 //            cin.get();
+//            cout << "\n" << gui::menu_divider();
 //
 //            for (size_t i = 0; i < enemies.size(); i++)
 //            {
@@ -801,10 +805,11 @@ void Event::shopEncounter(Character &character)
 //                {
 //                    cout << "Enemy missed!" << "\n\n";
 //                }
-//                cout << "Continue.." << "\n\n";
+//                cout << "Continue..";
 //                cin.get();
+//                cout << "\n" << gui::menu_divider();
 //            }
-//
+////            cout << "\n" << gui::menu_divider();
 //            playerTurn = true;
 //        }
 //
