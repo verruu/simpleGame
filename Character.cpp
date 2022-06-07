@@ -397,10 +397,12 @@ const string Character::getCharBar() const
     stringstream ss;
 
     ss << this->name <<
-    ". Level: " << this->level <<
-    " Exp: " << this->exp << "/" << this->expNext <<
-    " HP: " << this->hp << "/" << this->hpMax <<
-    " Stamina: " << this->stamina << "/" << this->staminaMax <<
+    ". Level: " << this->level << "\n" <<
+    "Exp: " << this->exp << "/" << this->expNext <<
+    gui::progressBar(this->exp, this->expNext, 20, '-', '=') << "\n" <<
+    "HP: " << this->hp << "/" << this->hpMax <<
+    gui::progressBar(this->hp, this->hpMax, 20, '-', '=') << "\n" <<
+    "Stamina: " << this->stamina << "/" << this->staminaMax <<
     " Flasks: " << this->flasks << " (" << this->flaskShards << "/" << this->flaskShardsMax << ")" <<
     " Distance travelled: " << this->distanceTravelled <<
     " Gold: " << this->gold;

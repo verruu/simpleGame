@@ -34,3 +34,18 @@ const std::string gui::error(const std::string message)
     ss << "!! " << message << " !!" << "\n\n";
     return ss.str();
 }
+
+const std::string gui::progressBar(const int valueMin, const int valueMax, const int lengthMax,
+                                   const char symbolEmpty, const char symbolFull)
+{
+    std::stringstream ss;
+
+    double percent = static_cast<double>(valueMin)/valueMax;
+    int sFull = lengthMax * percent;
+    int sEmpty = lengthMax - sFull;
+
+//    ss << percent << " " << sFull << " " << sEmpty << "\n";
+    ss << " |" << std::string(sFull, symbolFull) << std::string(sEmpty, symbolEmpty) << "| ";
+
+    return ss.str();
+}
