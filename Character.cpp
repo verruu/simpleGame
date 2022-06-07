@@ -28,10 +28,14 @@ Character::Character()
 
     this->statPoints = 0;
     this->skillPoints = 0;
+
+    this->flasks = 1;
+    this->flaskShards = 0;
+    this->flaskShardsMax = 10;
 }
 
 Character::Character(string name, int distanceTravelled, int gold, int level,
-                     int exp, int strength, int vitality, int dexterity,
+                     int exp, int flasks, int flaskShards, int strength, int vitality, int dexterity,
                      int intelligence, int hp, int stamina, int statPoints,
                      int skillPoints)
 {
@@ -60,6 +64,10 @@ Character::Character(string name, int distanceTravelled, int gold, int level,
 
     this->statPoints = statPoints;
     this->skillPoints = skillPoints;
+
+    this->flasks = flasks;
+    this->flaskShards = flaskShards;
+    this->flaskShardsMax = 10;
 
 //    this->inventory.addItem(Weapon(1, rand() % 5));
 //    this->inventory.addItem(Weapon(1, rand() % 5));
@@ -117,6 +125,8 @@ void Character::printStats() const
     cout << "-= Level: " << this->level << " =-" << endl;
     cout << "-= Exp: " << this->exp << " =-" << endl;
     cout << "-= Exp to next level: " << this->expNext << " =-" << endl;
+    cout << "-= Flasks: " << this->flasks << " =-" << endl;
+    cout << "-= Flask shards: " << this->flaskShards << "/" << this->flaskShardsMax << " =-" << endl;
     cout << "-= Stat points: " << this->statPoints << " =-" << endl;
     cout << endl;
     cout << "-= Strength: " << this->strength << " =-" << endl;
@@ -244,6 +254,8 @@ string Character::getAsString() const
             to_string(gold) + " " +
             to_string(level) + " " +
             to_string(exp) + " " +
+            to_string(flasks) + " " +
+            to_string(flaskShards) + " " +
             to_string(strength) + " " +
             to_string(vitality) + " " +
             to_string(dexterity) + " " +
@@ -378,4 +390,20 @@ void Character::takeDamage(const int damage)
     {
         this->hp = 0;
     }
+}
+
+const string Character::getCharBar() const
+{
+    stringstream ss;
+
+    ss << this->name <<
+    ". Level: " << this->level <<
+    " Exp: " << this->exp << "/" << this->expNext <<
+    " HP: " << this->hp << "/" << this->hpMax <<
+    " Stamina: " << this->stamina << "/" << this->staminaMax <<
+    " Flasks: " << this->flasks << " (" << this->flaskShards << "/" << this->flaskShardsMax << ")" <<
+    " Distance travelled: " << this->distanceTravelled <<
+    " Gold: " << this->gold;
+
+    return ss.str();
 }

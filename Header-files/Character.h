@@ -9,7 +9,7 @@ class Character
 public:
     Character();
     Character(string name, int distanceTravelled, int gold, int level,
-              int exp, int strength, int vitality, int dexterity,
+              int exp, int flasks, int flaskShards, int strength, int vitality, int dexterity,
               int intelligence, int hp, int stamina, int statPoints,
               int skillPoints);
     virtual ~Character();
@@ -27,6 +27,7 @@ public:
     void addItem(const Item &item) { this->inventory.addItem(item); }
     void removeItem(const int index);
     const Item& getItem(const int index);
+    const string getCharBar() const;
     void eqItem(unsigned index);
 
     //accessors
@@ -115,5 +116,9 @@ private:
 
     int statPoints;
     int skillPoints;
+
+    int flasks;
+    int flaskShards;
+    int flaskShardsMax;
 
 };

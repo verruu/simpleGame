@@ -28,6 +28,18 @@ string Enemy::getAsString() const
     "Drop chance: " + to_string(this->dropChance) + "\n";
 }
 
+string Enemy::getAsStringEvent() const
+{
+    stringstream ss;
+    ss <<
+    "Level: " << this->level <<
+    " HP: " << this->hp << "/" << this->hpMax <<
+    " Damage: " << this->damageMin << " - " << this->damageMax <<
+    " Defence: " << this->defence << " Accuracy: " << this->accuracy;
+
+    return ss.str();
+}
+
 void Enemy::takeDamage(int damage)
 {
     this->hp -= damage;

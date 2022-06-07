@@ -27,3 +27,10 @@ const std::string gui::alert(const std::string message)
     ss << "[[ " << message << " ]]" << "\n\n";
     return ss.str();
 }
+
+const std::string gui::error(const std::string message)
+{
+    std::stringstream ss;
+    ss << "!! " << message << " !!" << "\n\n";
+    return ss.str();
+}

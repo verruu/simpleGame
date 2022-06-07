@@ -12,6 +12,7 @@ public:
 
     inline bool isAlive() { return this->hp > 0; }
     string getAsString() const;
+    string getAsStringEvent() const;
     void takeDamage(int damage);
     inline int getLevel() const { return this->level; }
     inline int getDamage() const { return rand() % (1 + this->damageMax - this->damageMin) + 1 + this->damageMin; }

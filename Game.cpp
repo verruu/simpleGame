@@ -16,6 +16,7 @@ Game::~Game()
 //functions
 void Game::initGame()
 {
+    cout << gui::menu_divider();
     ifstream in;
     in.open("characters.txt");
 
@@ -41,9 +42,9 @@ void Game::mainMenu()
         menu_str << gui::menu_title("MAIN MENU");
         menu_str << gui::menu_divider();
 
-        menu_str << "ACTIVE CHARACTER: " <<
-             this->characters[activeCharacter].getName() << ". Nr " <<
-             this->activeCharacter + 1 << "/" << this->characters.size() << ".\n\n";
+        menu_str << "ACTIVE CHARACTER: " << "Nr " <<
+             this->activeCharacter + 1 << "/" << this->characters.size() <<
+             " - " << this->characters[activeCharacter].getCharBar() << ".\n\n";
         menu_str << gui::menu_divider();
 
         if (this->characters[activeCharacter].getExp() >=
@@ -64,23 +65,6 @@ void Game::mainMenu()
         menu_str << gui::menu_item(8, "Save characters");
         menu_str << gui::menu_item(9, "Load characters");
         menu_str << "\n";
-        menu_str << gui::menu_divider();
-
-//        menu_str << "Choice: ";
-//        cin >> this->choice;
-//
-//        while (cin.fail()) {
-//            cout << "Faulty input!" << "\n";
-//            cin.clear();
-//            cin.ignore(100, '\n');
-//
-//            cout << "\n" << "Choice: ";
-//            cin >> this->choice;
-//        }
-//
-//        cin.ignore(100, '\n');
-//        cout << "\n";
-//        cout << gui::menu_divider();
 
         getChoice(this->choice, menu_str.str(), 1);
 
@@ -166,7 +150,6 @@ void Game::characterMenu()
         cout << gui::menu_item(2, "Show inventory");
         cout << gui::menu_item(3, "Equip item");
         cout << "\n";
-        cout << gui::menu_divider();
 
         cout << "Choice: ";
         cin >> this->choice;
@@ -337,6 +320,8 @@ void Game::loadCharacters()
     int gold = 0;
     int level = 0;
     int exp = 0;
+    int flasks = 0;
+    int flaskShards = 0;
 
     int strength = 0;
     int vitality = 0;
@@ -376,6 +361,8 @@ void Game::loadCharacters()
             str >> gold;
             str >> level;
             str >> exp;
+            str >> flasks;
+            str >> flaskShards;
             str >> strength;
             str >> vitality;
             str >> dexterity;
@@ -387,7 +374,7 @@ void Game::loadCharacters()
 
             //create character
             Character temp(name, distanceTravelled, gold, level,
-                           exp, strength, vitality, dexterity,
+                           exp, flasks, flaskShards, strength, vitality, dexterity,
                            intelligence, hp, stamina, statPoints,
                            skillPoints);
 

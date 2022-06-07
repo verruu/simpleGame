@@ -72,11 +72,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
 
     for (size_t i = 0; i < enemies.size(); i++)
     {
-        cout << i << ": " << "Level: " << enemies[i].getLevel() <<
-             " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() <<
-             " Defence: " << enemies[i].getDefence() << " Accuracy: " <<
-             enemies[i].getAccuracy() <<
-             " Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
+        cout << i << ": " << enemies[i].getAsStringEvent() << "\n";
     }
     cout << "\n";
     cout << gui::menu_divider();
@@ -95,81 +91,45 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
     {
         if (playerTurn && !playerDefeated)
         {
+            stringstream menu_str;
+
             cout << gui::menu_title("PLAYER TURN");
             cout << gui::menu_divider();
             cout << "Continue..";
             cin.get();
             cout << "\n" << gui::menu_divider();
 
-            cout << gui::menu_title("BATTLE MENU");
-            cout << gui::menu_divider();
-            cout << "Your Hp: " <<
+            menu_str << gui::menu_title("BATTLE MENU");
+            menu_str << gui::menu_divider();
+            menu_str << "Your Hp: " <<
             character.getHp() << "/" << character.getHpMax() << ". \n\n";
-            cout << gui::menu_item(0, "Escape");
-            cout << gui::menu_item(1, "Attack");
-            cout << gui::menu_item(2, "Defend");
-            cout << gui::menu_item(3, "Use item");
-            cout << "\n";
-            cout << "Choose your action: ";
-            cin >> choice;
+            menu_str << gui::menu_item(0, "Escape");
+            menu_str << gui::menu_item(1, "Attack");
+            menu_str << gui::menu_item(2, "Defend");
+            menu_str << gui::menu_item(3, "Use item");
+            menu_str << "\n";
 
-            while (cin.fail() || choice > 3 || choice < 0)
-            {
-                //system("CLS");
-                cout << "Faulty input!" << "\n";
-                cin.clear();
-                cin.ignore(100, '\n');
-
-                cout << "\n" << "Choose your action: ";
-                cin >> choice;
-            }
-            cin.ignore(100, '\n');
-            cout << "\n";
-            cout << gui::menu_divider();
+            getChoice(choice, menu_str.str(), 1);
 
             switch (choice)
             {
                 case 0: //ESCAPE
-//                for (size_t i = 0; i < enemies.size(); i++)
-//                {
-//                    enemies.remove(i);
-//                }
                 cout << "You have escaped the battle successfully!" << "\n\n";
                 cout << gui::menu_divider();
                 escape = true;
                     break;
                 case 1: //ATTACK
-
+                menu_str.clear();
                 //Enemy selection
-                    cout << "Select enemy: " << "\n\n";
+                    menu_str << "Select enemy: " << "\n\n";
 
                     for (size_t i = 0; i < enemies.size(); i++)
                     {
-                        cout << i << ": " << "Level: " << enemies[i].getLevel() <<
-                        " HP: " << enemies[i].getHp() << "/" << enemies[i].getHpMax() <<
-                        " Defence: " << enemies[i].getDefence() << " Accuracy: " <<
-                        enemies[i].getAccuracy() <<
-                        " Damage: " << enemies[i].getDamageMin() << " - " << enemies[i].getDamageMax() << "\n";
+                        menu_str << gui::menu_item(i, enemies[i].getAsStringEvent());
                     }
+                    menu_str << "\n";
 
-                    cout << "\n";
-                    cout << "Choice: ";
-                    cin >> choice;
-
-                    while (cin.fail() || choice >= enemies.size() || choice < 0)
-                    {
-                        //system("CLS");
-                        cout << "Faulty input!" << "\n";
-                        cin.clear();
-                        cin.ignore(100, '\n');
-
-                        cout << "\n" << "Select enemy: ";
-                        cin >> choice;
-                    }
-
-                    cin.ignore(100, '\n');
-                    cout << "\n";
-                    cout << gui::menu_divider();
+                    getChoice(choice, menu_str.str(), 1);
 
                 //Attack roll
                 combatRollPlayer = rand() % 100 + 1;
@@ -251,16 +211,19 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                     cout << "You missed!" << "\n\n";
                     cout << gui::menu_divider();
                 }
+                    playerTurn = false;
                     break;
                 case 2: //DEFEND
+                    playerTurn = false;
                     break;
                 case 3: //USE ITEM
+                    playerTurn = false;
                     break;
                 default:
+                    cout << "ERROR: MENU OPTION NON EXISTENT!" << "\n\n";
+                    cout << gui::menu_divider();
                     break;
             }
-//            cout << "\n" << gui::menu_divider();
-            playerTurn = false;
         }
         else if (!playerTurn && !playerDefeated && !escape && !enemiesDefeated)
         {
@@ -294,10 +257,6 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
 
                     if (!character.isAlive())
                     {
-//                        for (size_t i = 0; i < enemies.size(); i++)
-//                        {
-//                            enemies.remove(i);
-//                        }
                         cout << "YOU ARE DEFEATED!" << "\n\n";
                         playerDefeated = true;
                     }
