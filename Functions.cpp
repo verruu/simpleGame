@@ -44,6 +44,16 @@ const std::string gui::progressBar(const int valueMin, const int valueMax, const
     int sFull = lengthMax * percent;
     int sEmpty = lengthMax - sFull;
 
+    if (sFull < 0)
+        sFull = 0;
+    else if (sFull > lengthMax)
+        sFull = lengthMax;
+
+    if (sEmpty < 0)
+        sEmpty = 0;
+    else if (sEmpty > lengthMax)
+        sEmpty = lengthMax;
+
 //    ss << percent << " " << sFull << " " << sEmpty << "\n";
     ss << " |" << std::string(sFull, symbolFull) << std::string(sEmpty, symbolEmpty) << "| ";
 

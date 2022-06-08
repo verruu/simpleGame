@@ -9,7 +9,8 @@ class Character
 public:
     Character();
     Character(string name, int distanceTravelled, int gold, int level,
-              int exp, int flasks, int flaskShards, int strength, int vitality, int dexterity,
+              int exp, int flasks, int flasksMax, int flaskShards,
+              int strength, int vitality, int dexterity,
               int intelligence, int hp, int stamina, int statPoints,
               int skillPoints);
     virtual ~Character();
@@ -28,7 +29,11 @@ public:
     void removeItem(const int index);
     const Item& getItem(const int index);
     const string getCharBar() const;
+    const bool consumeFlask();
+    const bool upgradeFlask();
+    void resetFlask();
     void eqItem(unsigned index);
+    void takeDamage(const int damage);
 
     //accessors
     inline const int& getDistanceTravelled() const { return this->distanceTravelled; }
@@ -75,7 +80,6 @@ public:
     inline void gainExp(const int exp) { this->exp += exp; }
     inline void gainGold(const int gold) { this->gold += gold; }
     inline void payGold(const int gold) { this->gold -= gold; }
-    void takeDamage(const int damage);
     inline void setWeapon(Weapon weapon) { this->weapon = weapon; }
     inline void setArmorHead(Armor armor_head) { this->armor_head = armor_head; }
     inline void setArmorChest(Armor armor_chest) { this->armor_chest = armor_chest; }
@@ -117,6 +121,7 @@ private:
     int statPoints;
     int skillPoints;
 
+    int flasksMax;
     int flasks;
     int flaskShards;
     int flaskShardsMax;

@@ -102,7 +102,9 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
             menu_str << gui::menu_title("BATTLE MENU");
             menu_str << gui::menu_divider();
             menu_str << "Your Hp: " <<
-            character.getHp() << "/" << character.getHpMax() << ". \n\n";
+            character.getHp() << "/" << character.getHpMax() << "." <<
+            gui::progressBar(character.getHp(), character.getHpMax(),
+                             10, '-', '=') << "\n\n";
             menu_str << gui::menu_item(0, "Escape");
             menu_str << gui::menu_item(1, "Attack");
             menu_str << gui::menu_item(2, "Defend");
@@ -131,6 +133,13 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
 
                     getChoice(choice, menu_str.str(), 1);
 
+                    while (choice >= enemies.size() || choice < 0)
+                    {
+                        cout << gui::error("ERROR: MENU OPTION NON EXISTENT!");
+                        cout << gui::menu_divider();
+                        getChoice(choice, menu_str.str(), 1);
+                    }
+
                 //Attack roll
                 combatRollPlayer = rand() % 100 + 1;
 
@@ -153,7 +162,9 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                     damage = character.getDamage();
                     enemies[choice].takeDamage(damage);
 
-                    cout << damage << " damage dealt!" << "\n\n";
+                    cout << "You have hit an enemy for " << damage << " damage!" << "\n";
+                    cout << "Enemy Hp: " <<
+                         enemies[choice].getHp() << "/" << enemies[choice].getHpMax() << ". \n\n";
 
                     if (!enemies[choice].isAlive())
                     {
@@ -217,10 +228,39 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                     playerTurn = false;
                     break;
                 case 3: //USE ITEM
-                    playerTurn = false;
+                    menu_str.clear();
+                    menu_str << gui::menu_title("USE ITEM");
+                    menu_str << gui::menu_divider();
+                    menu_str << gui::menu_item(0, "Back");
+                    menu_str << gui::menu_item(1, "Use a flask");
+                    menu_str << "\n";
+
+                    getChoice(choice, menu_str.str(), 1);
+
+                    switch (choice)
+                    {
+                        case 0:
+                            cout << gui::alert("Back to Main Menu.");
+                            break;
+                        case 1:
+                            if (character.consumeFlask())
+                            {
+                                cout << gui::alert("Flask used.");
+                                playerTurn = false;
+                            }
+                            else
+                            {
+                                cout << gui::alert("No flasks available!");
+                            }
+                            break;
+                        default:
+                            cout << gui::error("ERROR: MENU OPTION NON EXISTENT!");
+                            cout << gui::menu_divider();
+                            break;
+                    }
                     break;
                 default:
-                    cout << "ERROR: MENU OPTION NON EXISTENT!" << "\n\n";
+                    cout << gui::error("ERROR: MENU OPTION NON EXISTENT!");
                     cout << gui::menu_divider();
                     break;
             }
@@ -251,7 +291,7 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                     damage = enemies[i].getDamage();
                     character.takeDamage(damage);
 
-                    cout << damage << " damage dealt!" << "\n";
+                    cout << "You have been hit for " << damage << " damage!" << "\n";
                     cout << "Your Hp: " <<
                          character.getHp() << "/" << character.getHpMax() << ". \n\n";
 
@@ -269,7 +309,6 @@ void Event::enemyEncounter(Character &character, dArr<Enemy> &enemies)
                 cin.get();
                 cout << "\n" << gui::menu_divider();
             }
-//            cout << "\n" << gui::menu_divider();
             playerTurn = true;
         }
 

@@ -100,7 +100,7 @@ void Game::mainMenu()
                 loadCharacters();
                 break;
             default:
-                cout << "ERROR: MENU OPTION NON EXISTENT!" << "\n\n";
+                cout << gui::error("ERROR: MENU OPTION NON EXISTENT!");
                 cout << gui::menu_divider();
                 break;
         }
@@ -110,25 +110,13 @@ void Game::mainMenu()
     }
     else
     {
-        cout << "YOU HAVE DIED!" << "\n\n";
-        cout << "CONTINUE?" << "\n\n";
-        cout << "(0) Yes / (1) No: ";
-        cin >> this->choice;
+        stringstream menu_str;
 
-        while (cin.fail() || this->choice < 0 || this->choice > 1)
-        {
-            cout << "Faulty input!" << "\n";
-            cin.clear();
-            cin.ignore(100, '\n');
+        menu_str << "YOU HAVE DIED!" << "\n\n";
+        menu_str << "CONTINUE?" << "\n\n";
+        menu_str << "(0) Yes / (1) No: ";
 
-            cout << "CONTINUE?" << "\n";
-            cout << "(0) Yes / (1) No: ";
-            cin >> this->choice;
-        }
-
-        cin.ignore(100, '\n');
-        cout << "\n";
-        cout << gui::menu_divider();
+        getChoice(this->choice, menu_str.str(), 1);
 
         if (this->choice == 0)
             this->loadCharacters();
@@ -208,6 +196,8 @@ void Game::characterMenu()
                 }
                 break;
             default:
+                cout << gui::error("ERROR: MENU OPTION NON EXISTENT!");
+                cout << gui::menu_divider();
                 break;
         }
         cout << gui::menu_divider();
@@ -230,7 +220,7 @@ void Game::createNewCharacter()
     {
         while (name == this->characters[i].getName())
         {
-            cout << "\n" << "Error! Character already exists!" << "\n\n";
+            cout << "\n" << gui::error("Error! Character already exists!");
             cout << "Enter your character name: ";
             getline(cin, name);
         }
@@ -247,48 +237,26 @@ void Game::levelUpCharacter()
 
     if (this->characters[activeCharacter].getStatPoints() > 0)
     {
-        cout << "You have stat points to allocate!" << "\n\n";
-        cout << gui::menu_divider();
-        cout << "Which stat do you want to upgrade?" << "\n\n";
-        cout << gui::menu_item(0, "Strength");
-        cout << gui::menu_item(1, "Vitality");
-        cout << gui::menu_item(2, "Dexterity");
-        cout << gui::menu_item(3, "Intelligence");
-        cout << "\n";
-        cout << "Choice: ";
-        cin >> this->choice;
+        stringstream menu_str;
 
-        while (cin.fail() || this->choice > 3)
+        menu_str << "You have stat points to allocate!" << "\n\n";
+        menu_str << gui::menu_divider();
+        menu_str << "Which stat do you want to upgrade?" << "\n\n";
+        menu_str << gui::menu_item(0, "Strength");
+        menu_str << gui::menu_item(1, "Vitality");
+        menu_str << gui::menu_item(2, "Dexterity");
+        menu_str << gui::menu_item(3, "Intelligence");
+        menu_str << "\n";
+
+        getChoice(this->choice, menu_str.str(), 1);
+
+        while (this->choice > 3 || this->choice < 0)
         {
-            cout << "Faulty input!" << "\n";
-            cin.clear();
-            cin.ignore(100, '\n');
-
-            cout << "Which stat do you want to upgrade?";
-            cin >> this->choice;
+            cout << gui::error("ERROR: MENU OPTION NON EXISTENT!");
+            cout << gui::menu_divider();
+            getChoice(this->choice, menu_str.str(), 1);
         }
-
-        cin.ignore(100, '\n');
-        cout << "\n";
-        cout << gui::menu_divider();
-
-        switch (this->choice)
-        {
-            case 0: //STRENGTH
-                this->characters[activeCharacter].addToStat(0, 1);
-                break;
-            case 1: //VITALITY
-                this->characters[activeCharacter].addToStat(1, 1);
-                break;
-            case 2: //DEXTERITY
-                this->characters[activeCharacter].addToStat(2, 1);
-                break;
-            case 3: //INTELLIGENCE
-                this->characters[activeCharacter].addToStat(3, 1);
-                break;
-            default:
-                break;
-        }
+        this->characters[activeCharacter].addToStat(this->choice, 1);
     }
     this->characters[activeCharacter].updateStats();
 }
@@ -321,6 +289,7 @@ void Game::loadCharacters()
     int level = 0;
     int exp = 0;
     int flasks = 0;
+    int flasksMax = 0;
     int flaskShards = 0;
 
     int strength = 0;
@@ -362,6 +331,7 @@ void Game::loadCharacters()
             str >> level;
             str >> exp;
             str >> flasks;
+            str >> flasksMax;
             str >> flaskShards;
             str >> strength;
             str >> vitality;
@@ -374,7 +344,7 @@ void Game::loadCharacters()
 
             //create character
             Character temp(name, distanceTravelled, gold, level,
-                           exp, flasks, flaskShards, strength, vitality, dexterity,
+                           exp, flasks, flasksMax, flaskShards, strength, vitality, dexterity,
                            intelligence, hp, stamina, statPoints,
                            skillPoints);
 
